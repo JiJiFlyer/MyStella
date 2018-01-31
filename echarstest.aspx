@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="ECharts">
-    <meta name="author" content="kener.linfeng@gmail.com">
     <title>echarstest</title>
     <script src="js/common.js"></script>
     <script src="echars/echarts.js" charset='utf-8'></script>
@@ -17,36 +16,6 @@
     <script src="echars/china.js" charset='utf-8'></script>
     <script src="echars/macarons.js"></script>
     <script src="../js/RPC.js"></script>
-    <style type="text/css"> 
-    table
-        {
-        font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-        width:90%;
-        margin-left: auto; 
-        margin-right: auto;
-        border-collapse:collapse;
-        }
-    table caption {
-            font-weight:700;
-            font-size:18px;
-        }
-    table td, table th 
-        {
-        font-size:1em;
-        border:1px solid #98bf21;
-        padding:3px 7px 2px 7px;
-        }
-
-    table th 
-        {
-        font-size:1.1em;
-        text-align:left;
-        padding-top:5px;
-        padding-bottom:4px;
-        background-color:#A7C942;
-        color:#ffffff;
-        }
-    </style>
     <link href="echars/font-awesome.min.css" rel="stylesheet">
     <link href="echars/bootstrap.css" rel="stylesheet">
     <link href="echars/carousel.css" rel="stylesheet">
@@ -58,23 +27,12 @@
     <![endif]-->
     <script src="echars/codemirror.js"></script>
     <script src="echars/javascript.js"></script>
-
     <link href="echars/codemirror.css" rel="stylesheet">
     <link href="echars/monokai.css" rel="stylesheet">
 </head>
 <body>
 
     <div id="yibiaopan" style="width: 800px;height:600px;"></div>
-    <table id="accountage_remind" border="2">
-    <caption>自定义账龄提醒表</caption>
-    <tr><th>客户</th><th>余额方向</th><th>余额</th><%=AgeLabel_R%></tr>
-    <%=AccountAge_R%>
-    </table>
-    <table id="accountage" border="2">
-    <caption>账龄表</caption>
-    <tr><th>客户</th><th>余额方向</th><th>余额</th><%=AgeLabel%></tr>
-    <%=AccountAge%>
-    </table>
     <div id="test1" style="width: 800px;height:600px;"></div>
     <div id="pie_salesman" style="width: 800px;height:600px;"></div>
     <div id="pie_region" style="width: 800px;height:600px;"></div>
