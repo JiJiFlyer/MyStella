@@ -38,7 +38,6 @@
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim db As DB
         Dim drDB As SqlClient.SqlDataReader
-        Dim drDB2 As SqlClient.SqlDataReader
         Dim sSql As String
         Try
             '账龄区间总额定义，用于累加该区间内金额，日后需要能自定义
@@ -119,95 +118,95 @@
             drDB.Close()
 
             sSql = "select sum(a.jf_bala) as receive from f_voucher_entry a inner join f_voucher b on a.voucherid=b.autoinc where b.bookno=001 and b.fmonth=(select(select convert(char(4),year(getdate()),20))+(select convert(char(2),right('0'+CAST(month(getdate())as nvarchar(2)),2),20)))and (a.itemno like '1001%' or a.itemno like '1002%' or a.itemno like '1121%') and (a.custom11='7705CBB9-6B63-4EBB-AB88-2C278C2EBB82')"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fReceive = drDB.Item("receive")
+            drDB.Close()
             sSql = "select sum(a.df_bala) as sales from f_voucher_entry a inner join f_voucher b on a.voucherid=b.autoinc where(bookno = 1)and b.fmonth=(select(select convert(char(4),year(getdate()),20))+(select convert(char(2),right('0'+CAST(month(getdate())as nvarchar(2)),2),20)))and (a.itemno like '6001%' or a.itemno like '217100106%')"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fSales = drDB.Item("sales")
+            drDB.Close()
             sSql = "select(select sum(a.jf_bala-a.df_bala) from f_voucher_entry a inner join f_voucher b on a.voucherid =b.autoinc where(bookno = 1)and b.fyear=(select convert(char(4),year(getdate())))and (a.itemno like '1001%' or a.itemno like '1002%'))+(select SUM(inital_bala) from f_inital_balance where itemno like '1001%' or itemno like '1002%') as bankroll"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fBankroll = drDB.Item("bankroll")
+            drDB.Close()
             sSql = "select(select sum(a.jf_bala-a.df_bala) from f_voucher_entry a inner join f_voucher b on a.voucherid=b.autoinc where(bookno = 1) and b.fyear=(select convert(char(4),year(getdate())))and (a.itemno like '1121%'))+(select SUM(inital_bala) from f_inital_balance where itemno like '1121%') as ticket"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fTicket = drDB.Item("ticket")
+            drDB.Close()
             sSql = "select min from tickset where autoinc='cc12decb-b5ec-4c9d-a4a9-945b31a40474'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fReceiveMin = drDB.Item("min")
+            drDB.Close()
             sSql = "select max from tickset where autoinc='cc12decb-b5ec-4c9d-a4a9-945b31a40474'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fReceiveMax = drDB.Item("max")
+            drDB.Close()
             sSql = "select min from tickset where autoinc='10fe9836-ae6b-47f1-af19-05d1c1d1140c'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fSalesMin = drDB.Item("min")
+            drDB.Close()
             sSql = "select max from tickset where autoinc='10fe9836-ae6b-47f1-af19-05d1c1d1140c'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fSalesMax = drDB.Item("max")
+            drDB.Close()
             sSql = "select min from tickset where autoinc='b8485bee-2599-4ae5-83be-bda31bb0434d'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fBankrollMin = drDB.Item("min")
+            drDB.Close()
             sSql = "select max from tickset where autoinc='b8485bee-2599-4ae5-83be-bda31bb0434d'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fBankrollMax = drDB.Item("max")
+            drDB.Close()
             sSql = "select min from tickset where autoinc='5a06d2e6-594a-4e31-9396-8ad472a720df'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fTicketMin = drDB.Item("min")
+            drDB.Close()
             sSql = "select max from tickset where autoinc='5a06d2e6-594a-4e31-9396-8ad472a720df'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fTicketMax = drDB.Item("max")
+            drDB.Close()
             sSql = "select unit from tickset where autoinc='10fe9836-ae6b-47f1-af19-05d1c1d1140c'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             sSalesUnit = drDB.Item("unit").ToString()
+            drDB.Close()
             sSql = "select number from bas_moneyunit where unit='" & sSalesUnit & "'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fSalesUnitNum = drDB.Item("number")
+            drDB.Close()
             sSql = "select unit from tickset where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             sBankrollUnit = drDB.Item("unit").ToString()
+            drDB.Close()
             sSql = "select number from bas_moneyunit where unit='" & sBankrollUnit & "'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fBankrollUnitNum = drDB.Item("number")
+            drDB.Close()
             sSql = "select unit from tickset where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             sTicketUnit = drDB.Item("unit").ToString()
+            drDB.Close()
             sSql = "select number from bas_moneyunit where unit='" & sTicketUnit & "'"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             fTicketUnitNum = drDB.Item("number")
+            drDB.Close()
             ' Dim iRowCount As Integer
             'sSql = "select count(distinct billdate) as count from echart_sell where goodsname='维生素A-(电仪)(照明)'"
             'db = New DB
@@ -228,7 +227,6 @@
             Dim t As Integer = 0
             Dim iRowCount As Integer
             sSql = "select count(distinct salesmanname) as count from echart_sell"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             iRowCount = drDB.Item("count")
