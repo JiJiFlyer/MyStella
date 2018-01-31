@@ -9,14 +9,15 @@
     <meta name="description" content="ECharts">
     <meta name="author" content="kener.linfeng@gmail.com">
     <title>echarstest</title>
-    <script language="javascript" src="js/common.js"></script>
+    <script src="js/common.js"></script>
     <script src="echars/echarts.js" charset='utf-8'></script>
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script src="http://api.map.baidu.com/api?v=2.0&ak=53oVIOgmSIejwV7EfphPgTynOZbIiVYu"></script>
     <script src="echars/bmap.min.js" charset='utf-8'></script>
     <script src="echars/china.js" charset='utf-8'></script>
     <script src="echars/macarons.js"></script>
-    <style type="text/css">    
+    <script src="../js/RPC.js"></script>
+    <style type="text/css"> 
     #accountage
         {
         font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -126,7 +127,7 @@
                 title : '自定义扩展方法',  
                 icon : 'image://http://echarts.baidu.com/images/favicon.png',  
                 onclick: function () {
-                    openDialog("Changescale.aspx", "500", "600");
+                    openDialog("Changescale.aspx", "250", "600");
                 }  
              }
         }
