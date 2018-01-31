@@ -31,18 +31,18 @@
             abegin = drDB.Item("begin")
             '提醒表标签行呈现
             If IsDBNull(drDB.Item("end")) Then
-                AgeLabel_R.Append("<th>" & （abegin + 1）.ToString() & "天及以上</th>")
+                AgeLabel_R.Append("<th>" & （abegin + 1） & "天及以上</th>")
             Else
                 aend = drDB.Item("end")
-                AgeLabel_R.Append("<th>" & abegin.ToString() & "-" & aend.ToString() & "天</th>")
+                AgeLabel_R.Append("<th>" & abegin & "-" & aend & "天</th>")
             End If
             drDB.Close()
             '账龄表标签行
-            AgeLabel.Append("<th>1-" & AgeData(0).ToString() & "天</th>")
+            AgeLabel.Append("<th>1-" & AgeData(0) & "天</th>")
             For i = 1 To agenumber - 1
-                AgeLabel.Append("<th>" & (AgeData(i - 1) + 1).ToString() & "-" & AgeData(i).ToString() & "天</th>")
+                AgeLabel.Append("<th>" & (AgeData(i - 1) + 1) & "-" & AgeData(i) & "天</th>")
             Next i
-            AgeLabel.Append("<th>" & （AgeData(agenumber - 1) + 1).ToString() & "天及以上</th>")
+            AgeLabel.Append("<th>" & （AgeData(agenumber - 1) + 1) & "天及以上</th>")
 
             '提醒表区间总额定义
             Dim agetotal_r As Double = 0
