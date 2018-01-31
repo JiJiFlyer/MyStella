@@ -34,14 +34,38 @@
     Public PproductData As New StringBuilder()
     Public PproductTop As New StringBuilder()
     Public AccountAge As New StringBuilder()
+    Public AgeLabel As New StringBuilder()
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim db As DB
         Dim drDB As SqlClient.SqlDataReader
         Dim sSql As String
         Try
+            '读取数据库中区间设置
+            '定义agenumber用于得到区间个数
+            Dim agenumber As Integer = 0
+            '定义AgeData数组用于存数据库中读取的区间设置
+            Dim AgeData(0 To 9) As Integer
+            Dim i As Integer
+            Dim tt As String() = {"t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"}
+            sSql = "select * from dbo.bas_agesectionset"
+            db = New DB
+            drDB = db.GetDataReader(sSql)
+            drDB.Read()
+            While Not IsDBNull(drDB.Item(tt(agenumber)))
+                AgeData(agenumber) = drDB.Item(tt(agenumber))
+                agenumber = agenumber + 1
+            End While
+            drDB.Close()
+            '标签行呈现
+            AgeLabel.Append("<th>1-" & AgeData(0).ToString() & "天</th>")
+            For i = 1 To agenumber - 1
+                AgeLabel.Append("<th>" & (AgeData(i - 1) + 1).ToString() & "-" & AgeData(i).ToString() & "天</th>")
+            Next i
+            AgeLabel.Append("<th>" & AgeData(agenumber - 1).ToString() & "天以上</th>")
+
             '账龄区间总额定义，用于累加该区间内金额，日后需要能自定义
-            Dim a1, a2, a3, a4, a5 As Double
+            Dim a1, a2, a3, a4, a5, a6, a7, a8, a9, a10 As Double
             a1 = 0
             a2 = 0
             a3 = 0
@@ -59,7 +83,6 @@
             Dim StringHolder2 As String
             '第一个查询：初始化pre_clientname为表中第一位客户
             sSql = "select top 1 clientname from dbo.echart_accountage order by clientname,billdate desc"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             pre_clientname = drDB.Item("clientname")
@@ -403,7 +426,6 @@
             End While
 
             Dim priceholder As Double
-            Dim x As Integer
             Dim Lmark As New StringBuilder()
             b = 0
             While GoodsMatch(b) <> ""

@@ -67,7 +67,7 @@
     <div id="yibiaopan" style="width: 800px;height:600px;"></div>
     <table id="accountage" border="2">
     <caption>账龄表</caption>
-    <tr><th>客户</th><th>余额方向</th><th>余额</th><th>1-30天</th><th>31-60天</th><th>61-90天</th><th>91-120天</th><th>120天以上</th></tr>
+    <tr><th>客户</th><th>余额方向</th><th>余额</th><%=AgeLabel%></tr>
     <%=AccountAge%>
     </table>
     <div id="test1" style="width: 800px;height:600px;"></div>
