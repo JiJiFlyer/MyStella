@@ -35,6 +35,8 @@
     Public PproductTop As New StringBuilder()
     Public AccountAge As New StringBuilder()
     Public AgeLabel As New StringBuilder()
+    Public AccountAge_R As New StringBuilder()
+    Public AgeLabel_R As New StringBuilder()
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim db As DB
@@ -48,6 +50,9 @@
             Dim AgeData(0 To 9) As Integer
             Dim i As Integer
             Dim tt As String() = {"t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"}
+            '定义abegin、aend记录数据库中begin和end参数
+            Dim abegin As Integer
+            Dim aend As Integer = 0
             sSql = "select * from dbo.bas_agesectionset"
             db = New DB
             drDB = db.GetDataReader(sSql)
@@ -56,13 +61,21 @@
                 AgeData(agenumber) = drDB.Item(tt(agenumber))
                 agenumber = agenumber + 1
             End While
+            abegin = drDB.Item("begin")
+            '提醒表标签行呈现
+            If IsDBNull(drDB.Item("end")) Then
+                AgeLabel_R.Append("<th>" & （abegin + 1）.ToString() & "天及以上</th>")
+            Else
+                aend = drDB.Item("end")
+                AgeLabel_R.Append("<th>" & abegin.ToString() & "-" & aend.ToString() & "天</th>")
+            End If
             drDB.Close()
-            '标签行呈现
+            '账龄表标签行
             AgeLabel.Append("<th>1-" & AgeData(0).ToString() & "天</th>")
             For i = 1 To agenumber - 1
                 AgeLabel.Append("<th>" & (AgeData(i - 1) + 1).ToString() & "-" & AgeData(i).ToString() & "天</th>")
             Next i
-            AgeLabel.Append("<th>" & AgeData(agenumber - 1).ToString() & "天以上</th>")
+            AgeLabel.Append("<th>" & （AgeData(agenumber - 1) + 1).ToString() & "天及以上</th>")
 
             '账龄区间总额数组定义，用于累加该区间内金额
             Dim agetotal(10) As Double

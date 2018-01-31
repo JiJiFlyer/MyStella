@@ -65,6 +65,11 @@
 <body>
 
     <div id="yibiaopan" style="width: 800px;height:600px;"></div>
+    <table id="accountage_remind" border="2">
+    <caption>自定义账龄提醒表</caption>
+    <tr><th>客户</th><th>余额方向</th><th>余额</th><%=AgeLabel_R%></tr>
+    
+    </table>
     <table id="accountage" border="2">
     <caption>账龄表</caption>
     <tr><th>客户</th><th>余额方向</th><th>余额</th><%=AgeLabel%></tr>
