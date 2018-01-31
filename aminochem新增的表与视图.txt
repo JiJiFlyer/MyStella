@@ -2,6 +2,7 @@
 bas_moneyunit
 tickset
 bas_agesectionset
+bas_custominteval
  ”Õº£∫
 echart_sell
 echart_buy
