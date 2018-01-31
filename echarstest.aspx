@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="echarstest.aspx.vb" Inherits="Jamada_4_0.echarstest" %>
+
 <!DOCTYPE HTML>
 
 <html>
@@ -31,270 +32,268 @@
     <link href="echars/monokai.css" rel="stylesheet">
 </head>
 <body>
-
-    <div id="yibiaopan" style="width: 800px;height:600px;"></div>
-    <div id="test1" style="width: 800px;height:600px;"></div>
-    <div id="pie_salesman" style="width: 800px;height:600px;"></div>
-    <div id="pie_region" style="width: 800px;height:600px;"></div>
-    <div id="pie_product" style="width: 800px;height:600px;"></div>
-    <div id="test3" style="width: 800px;height:600px;"></div>
-    <div id="test4" style="width: 800px;height:600px;"></div>
-    
+    <div id="yibiaopan" style="width: 800px; height: 600px;"></div>
+    <div id="test1" style="width: 800px; height: 600px;"></div>
+    <div id="pie_salesman" style="width: 800px; height: 600px;"></div>
+    <div id="pie_region" style="width: 800px; height: 600px;"></div>
+    <div id="pie_product" style="width: 800px; height: 600px;"></div>
+    <div id="test3" style="width: 800px; height: 600px;"></div>
+    <div id="test4" style="width: 800px; height: 600px;"></div>
     <select id="select">
-    <option value="5">维生素E</option>
-    <option value="4">维生素D</option>
-    <option value="3">维生素C</option>
-    <option value="2">维生素B</option>
-    <option value="1">维生素A</option>
+        <option value="5">维生素E</option>
+        <option value="4">维生素D</option>
+        <option value="3">维生素C</option>
+        <option value="2">维生素B</option>
+        <option value="1">维生素A</option>
     </select>
-    <div id="test5" style="width: 800px;height:600px;"></div>
-    <div id="map" style="width: 800px;height:600px;"></div>
-    <div id="map2" style="width: 800px;height:600px;"></div>
+    <div id="test5" style="width: 800px; height: 600px;"></div>
+    <div id="map" style="width: 800px; height: 600px;"></div>
+    <div id="map2" style="width: 800px; height: 600px;"></div>
 
-<script type ="text/jscript" >
-    var receive = <%=fReceive%>;
-    var sales = <%=fSales%>;
-    var bankroll = <%=fBankroll%>;
-    var ticket = <%=fTicket%>;
-    var receiveMax = <%=fReceiveMax%>;
-    var salesMax = <%=fSalesMax%>;
-    var bankrollMax = <%=fBankrollMax%>;
-    var ticketMax = <%=fTicketMax%>;
-    var receiveMin = <%=fReceiveMin%>;
-    var salesMin = <%=fSalesMin%>;
-    var bankrollMin = <%=fBankrollMin%>;
-    var ticketMin = <%=fTicketMin%>;
-    var salesUnit= '<%=sSalesUnit%>';
-    var salesUnitNum=<%=fSalesUnitNum%>;
-    var bankrollUnit='<%=sBankrollUnit%>';
-    var bankrollUnitNum=<%=fBankrollUnitNum%>;
-    var ticketUnit='<%=sTicketUnit%>';
-    var ticketUnitNum =<%=fTicketUnitNum%>;
-    
-</script>
+    <script type="text/jscript">
+        var receive = <%=fReceive%>;
+        var sales = <%=fSales%>;
+        var bankroll = <%=fBankroll%>;
+        var ticket = <%=fTicket%>;
+        var receiveMax = <%=fReceiveMax%>;
+        var salesMax = <%=fSalesMax%>;
+        var bankrollMax = <%=fBankrollMax%>;
+        var ticketMax = <%=fTicketMax%>;
+        var receiveMin = <%=fReceiveMin%>;
+        var salesMin = <%=fSalesMin%>;
+        var bankrollMin = <%=fBankrollMin%>;
+        var ticketMin = <%=fTicketMin%>;
+        var salesUnit = '<%=sSalesUnit%>';
+        var salesUnitNum =<%=fSalesUnitNum%>;
+        var bankrollUnit ='<%=sBankrollUnit%>';
+        var bankrollUnitNum =<%=fBankrollUnitNum%>;
+        var ticketUnit ='<%=sTicketUnit%>';
+        var ticketUnitNum =<%=fTicketUnitNum%>;
 
-<script type="text/javascript">
+    </script>
 
-    var myChart_yibiaopan = echarts.init(document.getElementById('yibiaopan'), 'macarons');
-    option_yibiaopan = {
-    tooltip : {
-        formatter: "{a} <br/>{c} {b}"
-    },
-    toolbox: {
-        show: true,       
-        feature: {
-            restore: {show: true},
-            saveAsImage: {show: true},
-            myTool : {  
-                show : true,  
-                title : '自定义扩展方法',  
-                icon : 'image://http://echarts.baidu.com/images/favicon.png',  
-                onclick: function () {
-                    openDialog("Changescale.aspx", "250", "600");
-                }  
-             }
-        }
-    },
-    title:{
-    text:'销售回款',
-    textStyle:{
-    color:'red',
-    fontWeight:'lighter',
-    fontSize:30
-    }
-    },
-    series : [
-        {
-            name: '销售收入',
-            type: 'gauge',
-            z: 3,
-            min: salesMin,
-            max: salesMax,
-            splitNumber: 10,
-            radius: '50%',
-            axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: [[0.09, 'lime'],[0.82, '#1e90ff'],[1, '#ff4500']],
-                    width: 10
+    <script type="text/javascript">
+
+        var myChart_yibiaopan = echarts.init(document.getElementById('yibiaopan'), 'macarons');
+        option_yibiaopan = {
+            tooltip: {
+                formatter: "{a} <br/>{c} {b}"
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    restore: { show: true },
+                    saveAsImage: { show: true },
+                    myTool: {
+                        show: true,
+                        title: '自定义扩展方法',
+                        icon: 'image://http://echarts.baidu.com/images/favicon.png',
+                        onclick: function () {
+                            openDialog("Changescale.aspx", "250", "600");
+                        }
+                    }
                 }
-            },
-            axisTick: {            // 坐标轴小标记
-                length: 15,        // 属性length控制线长
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: 'auto'
-                }
-            },
-            splitLine: {           // 分隔线
-                length: 20,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto'
-                }
-            },
-            axisLabel: {
-                backgroundColor: 'auto',
-                borderRadius: 2,
-                color: '#eee',
-                padding: 3,
-                textShadowBlur: 2,
-                textShadowOffsetX: 1,
-                textShadowOffsetY: 1,
-                textShadowColor: '#222'
-            },
-            title : {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                fontWeight: 'bolder',
-                fontSize: 20,
-                fontStyle: 'italic'
-            },
-            detail : {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                /*formatter: function (value) {
-                    value = (value + '').split('.');
-                    value.length < 2 && (value.push('00'));
-                    return ('00' + value[0]).slice(-2)
-                        + '.' + (value[1] + '00').slice(0, 2);//转为百分比
-                },*/
-                fontWeight: 'bolder',
-                borderRadius: 3,
-                backgroundColor: '#444',
-                borderColor: '#aaa',
-                shadowBlur: 5,
-                shadowColor: '#333',
-                shadowOffsetX: 0,
-                shadowOffsetY: 3,
-                borderWidth: 2,
-                textBorderColor: '#000',
-                textBorderWidth: 2,
-                textShadowBlur: 2,
-                textShadowColor: '#fff',
-                textShadowOffsetX: 0,
-                textShadowOffsetY: 0,
-                fontFamily: 'Arial',
-                width: 100,
-                color: '#eee',
-                rich: {}
-            },
-            data: [{ value: (sales / salesUnitNum).toFixed(2) - 0, name: '销售收入/' + salesUnit}]
-        },
-        {
-            name: '销售回款',
-            type: 'gauge',
-            center: ['20%', '55%'],    // 默认全局居中
-            radius: '35%',
-            min:receiveMin,
-            max:receiveMax,
-            endAngle:45,
-            splitNumber:6,
-            axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: [[0.09, 'lime'],[0.82, '#1e90ff'],[1, '#ff4500']],
-                    width: 8
-                }
-            },
-            axisTick: {            // 坐标轴小标记
-                length:12,        // 属性length控制线长
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: 'auto'
-                }
-            },
-            splitLine: {           // 分隔线
-                length:20,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto'
-                }
-            },
-            pointer: {
-                width:5
             },
             title: {
-                offsetCenter: [0, '-30%']       // x, y，单位px
-            },
-            detail: {
-                // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                fontWeight: 'bolder'
-            },
-            data:[{value:(receive/sales*100).toFixed(2) - 0, name: '销售回款/%'}]
-        },
-        {
-            name: '银行存款',
-            type: 'gauge',
-            center: ['77%', '50%'],    // 默认全局居中
-            radius: '25%',
-            min: bankrollMin,
-            max: bankrollMax,
-            startAngle: 135,
-            endAngle: 45,
-            splitNumber: 2,
-            axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: [[0.09, 'lime'],[0.82, '#1e90ff'],[1, '#ff4500']],
-                    width: 8
+                text: '销售回款',
+                textStyle: {
+                    color: 'red',
+                    fontWeight: 'lighter',
+                    fontSize: 30
                 }
             },
-            axisTick: {            // 坐标轴小标记
-                show: false
-            },
-            
-            splitLine: {           // 分隔线
-                length: 15,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto'
-                }
-            },
-            pointer: {
-                width:2
-            },
-            title : {
-                offsetCenter: [0, '-30%'],
-                fontSize:15
-            },
-            detail : {
-                show: false
-            },
-            data: [{ value: (bankroll / bankrollUnitNum).toFixed(2) - 0, name: '银行存款/' + bankrollUnit}]
-        },
-        {
-            name: '应收票据',
-            type: 'gauge',
-            center : ['77%', '50%'],    // 默认全局居中
-            radius : '25%',
-            min: ticketMin,
-            max: ticketMax,
-            startAngle: 315,
-            endAngle: 225,
-            splitNumber: 2,
-            axisLine: {            // 坐标轴线
-                lineStyle: {       // 属性lineStyle控制线条样式
-                    color: [[0.09, 'lime'],[0.82, '#1e90ff'],[1, '#ff4500']],
-                    width: 8
-                }
-            },
-            axisTick: {            // 坐标轴小标记
-                show: false
-            },
-            
-            splitLine: {           // 分隔线
-                length: 15,         // 属性length控制线长
-                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto'
-                }
-            },
-            pointer: {
-                width:2
-            },
-            title: {
-                offsetCenter: [0, '+30%'],
-                fontSize:15
-            },
-            detail: {
-                show: false
-            },
-            data: [{ value: (ticket / ticketUnitNum).toFixed(2) - 0, name: '应收票据/' + ticketUnit}]
-        }
-    ]
-};
+            series: [
+                {
+                    name: '销售收入',
+                    type: 'gauge',
+                    z: 3,
+                    min: salesMin,
+                    max: salesMax,
+                    splitNumber: 10,
+                    radius: '50%',
+                    axisLine: {            // 坐标轴线
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: [[0.09, 'lime'], [0.82, '#1e90ff'], [1, '#ff4500']],
+                            width: 10
+                        }
+                    },
+                    axisTick: {            // 坐标轴小标记
+                        length: 15,        // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {           // 分隔线
+                        length: 20,         // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    axisLabel: {
+                        backgroundColor: 'auto',
+                        borderRadius: 2,
+                        color: '#eee',
+                        padding: 3,
+                        textShadowBlur: 2,
+                        textShadowOffsetX: 1,
+                        textShadowOffsetY: 1,
+                        textShadowColor: '#222'
+                    },
+                    title: {
+                        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        fontWeight: 'bolder',
+                        fontSize: 20,
+                        fontStyle: 'italic'
+                    },
+                    detail: {
+                        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        /*formatter: function (value) {
+                            value = (value + '').split('.');
+                            value.length < 2 && (value.push('00'));
+                            return ('00' + value[0]).slice(-2)
+                                + '.' + (value[1] + '00').slice(0, 2);//转为百分比
+                        },*/
+                        fontWeight: 'bolder',
+                        borderRadius: 3,
+                        backgroundColor: '#444',
+                        borderColor: '#aaa',
+                        shadowBlur: 5,
+                        shadowColor: '#333',
+                        shadowOffsetX: 0,
+                        shadowOffsetY: 3,
+                        borderWidth: 2,
+                        textBorderColor: '#000',
+                        textBorderWidth: 2,
+                        textShadowBlur: 2,
+                        textShadowColor: '#fff',
+                        textShadowOffsetX: 0,
+                        textShadowOffsetY: 0,
+                        fontFamily: 'Arial',
+                        width: 100,
+                        color: '#eee',
+                        rich: {}
+                    },
+                    data: [{ value: (sales / salesUnitNum).toFixed(2) - 0, name: '销售收入/' + salesUnit }]
+                },
+                {
+                    name: '销售回款',
+                    type: 'gauge',
+                    center: ['20%', '55%'],    // 默认全局居中
+                    radius: '35%',
+                    min: receiveMin,
+                    max: receiveMax,
+                    endAngle: 45,
+                    splitNumber: 6,
+                    axisLine: {            // 坐标轴线
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: [[0.09, 'lime'], [0.82, '#1e90ff'], [1, '#ff4500']],
+                            width: 8
+                        }
+                    },
+                    axisTick: {            // 坐标轴小标记
+                        length: 12,        // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {           // 分隔线
+                        length: 20,         // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    pointer: {
+                        width: 5
+                    },
+                    title: {
+                        offsetCenter: [0, '-30%']       // x, y，单位px
+                    },
+                    detail: {
+                        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        fontWeight: 'bolder'
+                    },
+                    data: [{ value: (receive / sales * 100).toFixed(2) - 0, name: '销售回款/%' }]
+                },
+                {
+                    name: '银行存款',
+                    type: 'gauge',
+                    center: ['77%', '50%'],    // 默认全局居中
+                    radius: '25%',
+                    min: bankrollMin,
+                    max: bankrollMax,
+                    startAngle: 135,
+                    endAngle: 45,
+                    splitNumber: 2,
+                    axisLine: {            // 坐标轴线
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: [[0.09, 'lime'], [0.82, '#1e90ff'], [1, '#ff4500']],
+                            width: 8
+                        }
+                    },
+                    axisTick: {            // 坐标轴小标记
+                        show: false
+                    },
 
-myChart_yibiaopan.setOption(option_yibiaopan, true);
+                    splitLine: {           // 分隔线
+                        length: 15,         // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    pointer: {
+                        width: 2
+                    },
+                    title: {
+                        offsetCenter: [0, '-30%'],
+                        fontSize: 15
+                    },
+                    detail: {
+                        show: false
+                    },
+                    data: [{ value: (bankroll / bankrollUnitNum).toFixed(2) - 0, name: '银行存款/' + bankrollUnit }]
+                },
+                {
+                    name: '应收票据',
+                    type: 'gauge',
+                    center: ['77%', '50%'],    // 默认全局居中
+                    radius: '25%',
+                    min: ticketMin,
+                    max: ticketMax,
+                    startAngle: 315,
+                    endAngle: 225,
+                    splitNumber: 2,
+                    axisLine: {            // 坐标轴线
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: [[0.09, 'lime'], [0.82, '#1e90ff'], [1, '#ff4500']],
+                            width: 8
+                        }
+                    },
+                    axisTick: {            // 坐标轴小标记
+                        show: false
+                    },
+
+                    splitLine: {           // 分隔线
+                        length: 15,         // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    pointer: {
+                        width: 2
+                    },
+                    title: {
+                        offsetCenter: [0, '+30%'],
+                        fontSize: 15
+                    },
+                    detail: {
+                        show: false
+                    },
+                    data: [{ value: (ticket / ticketUnitNum).toFixed(2) - 0, name: '应收票据/' + ticketUnit }]
+                }
+            ]
+        };
+
+        myChart_yibiaopan.setOption(option_yibiaopan, true);
 //setInterval(function (){
 //    option.series[0].data[0].value = (Math.random()*300).toFixed(2) - 0;
 //    option.series[1].data[0].value = receive;
@@ -302,9 +301,10 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
 //    option.series[3].data[0].value = (Math.random()*300).toFixed(2) - 0;
 //    myChart.setOption(option,true);
 //},2000);
-            
-    </script> <%--仪表盘--%>
-    
+
+    </script>
+    <%--仪表盘--%>
+
     <script type="text/javascript">
         var myChart1 = echarts.init(document.getElementById('test1'));
         option1 = {
@@ -320,39 +320,39 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
                     }
                 }
             },
-//            dataZoom: {
-//            id: 'dataZoomX',
-//            type: 'slider',
-//            xAxisIndex: [0],
-//            
-//            },
+            //            dataZoom: {
+            //            id: 'dataZoomX',
+            //            type: 'slider',
+            //            xAxisIndex: [0],
+            //            
+            //            },
             legend: {
                 data: ['数量', '单价']
             },
             toolbox: {
                 show: true,
                 feature: {
-                dataView: {
-                    show:true,
-                    //readOnly: false,
-                    optionToContent: function(opt) {
-                        var axisVal1 = opt.yAxis[0];
-                        var axisVal2 = opt.yAxis[1];
-                        var table = '<table style="width:100%;text-align:center"><tbody><tr>'
-                                 + '<td>'+opt.yAxis[0].name+'最小值</td>'
-                                 + '<td>' + opt.yAxis[0].name + '最大值</td>'
-                                 + '<td>test</td>'
-                                 + '</tr>';
+                    dataView: {
+                        show: true,
+                        //readOnly: false,
+                        optionToContent: function (opt) {
+                            var axisVal1 = opt.yAxis[0];
+                            var axisVal2 = opt.yAxis[1];
+                            var table = '<table style="width:100%;text-align:center"><tbody><tr>'
+                                + '<td>' + opt.yAxis[0].name + '最小值</td>'
+                                + '<td>' + opt.yAxis[0].name + '最大值</td>'
+                                + '<td>test</td>'
+                                + '</tr>';
 
-                        table += '<tr>'
-                                 + '<td>' + axisVal1.min + '</td>'
-                                 + '<td>' + axisVal1.max + '</td>'
-                                 + '<td>' + opt.series[0].data[0] + '</td>'
-                                 + '</tr>';
-                        
-                        table += '</tbody></table>';
-                        return table;
-                    } 
+                            table += '<tr>'
+                                + '<td>' + axisVal1.min + '</td>'
+                                + '<td>' + axisVal1.max + '</td>'
+                                + '<td>' + opt.series[0].data[0] + '</td>'
+                                + '</tr>';
+
+                            table += '</tbody></table>';
+                            return table;
+                        }
                     },
                     restore: {},
                     saveAsImage: {}
@@ -364,64 +364,65 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
                 end: 100
             },
             xAxis: [
-        {
-            type: 'category',
-            boundaryGap: true,
-            data: <%=flDate%>,
+                {
+                    type: 'category',
+                    boundaryGap: true,
+                    data: <%=flDate%>,
             /*['2017/11/21', '2017/11/25', '2017/12/1', '2017/12/4', '2017/12/8', '2017/12/12', '2017/12/18', '2017/12/23', '2017/12/27', '2017/12/31']      
         */}
-    ],
+            ],
             yAxis: [
-        {
-            type: 'value',
-            scale: true,
-            name: '数量',
-            max: 1200,
-            min: 0,
-            boundaryGap: [0.2, 0.2]
-        },
-        {
-            type: 'value',
-            scale: true,
-            name: '单价',
-            max: 30,
-            min: 0,
-            boundaryGap: [0.2, 0.2]
-        }
-    ],
+                {
+                    type: 'value',
+                    scale: true,
+                    name: '数量',
+                    max: 1200,
+                    min: 0,
+                    boundaryGap: [0.2, 0.2]
+                },
+                {
+                    type: 'value',
+                    scale: true,
+                    name: '单价',
+                    max: 30,
+                    min: 0,
+                    boundaryGap: [0.2, 0.2]
+                }
+            ],
             series: [
-        {
-            name: '单价',
-            type: 'line',
-            yAxisIndex: 1,
-        },
-        {
-            name: '数量',
-            type: 'bar',
-        }
-    ]
-    };
-    
-    $.get('data.json').done(function(data) {
-        // 填入数据
-        myChart1.setOption({
-            series: [{
-                // 根据名字对应到相应的系列
-                name: '单价',
-                data: [5, 20, 26, 10, 10, 20,10,20,30,10]
-},
-{            
-                name: '数量',
-                data: [5, 20, 26, 10, 10, 20,10,20,30,10]
-            
-            }]
+                {
+                    name: '单价',
+                    type: 'line',
+                    yAxisIndex: 1,
+                },
+                {
+                    name: '数量',
+                    type: 'bar',
+                }
+            ]
+        };
+
+        $.get('data.json').done(function (data) {
+            // 填入数据
+            myChart1.setOption({
+                series: [{
+                    // 根据名字对应到相应的系列
+                    name: '单价',
+                    data: [5, 20, 26, 10, 10, 20, 10, 20, 30, 10]
+                },
+                {
+                    name: '数量',
+                    data: [5, 20, 26, 10, 10, 20, 10, 20, 30, 10]
+
+                }]
             })
-            });
+        });
 
 
         myChart1.setOption(option1);
-    </script><%--双坐标轴、销量、单价--%>
-    
+    </script>
+    <%--双坐标轴、销量、单价--%>
+
     <script type="text/javascript">
         var myChart_pie_salesman = echarts.init(document.getElementById('pie_salesman'), 'macarons');
         option_pie_salesman = {
@@ -457,12 +458,12 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
             },
             calculable: true,
             series: [
-        {
-            name: '业务员销售额',
-            type: 'pie',
-            radius: '55%',
-            center: ['40%', '50%'],
-            data: <%=PsalesmanData%>,
+                {
+                    name: '业务员销售额',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['40%', '50%'],
+                    data: <%=PsalesmanData%>,
             itemStyle: {
                 emphasis: {
                     shadowBlur: 10,
@@ -470,12 +471,13 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
                     shadowColor: 'rgba(0, 0, 0, 0.5)'
                 }
             }
-        }
-    ]
+                }
+            ]
         };
-                    
+
         myChart_pie_salesman.setOption(option_pie_salesman);
-    </script><%--业务员饼图(demo)--%>
+    </script>
+    <%--业务员饼图(demo)--%>
 
     <script type="text/javascript">
         var myChart_pie_region = echarts.init(document.getElementById('pie_region'), 'macarons');
@@ -518,61 +520,6 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
                     radius: '55%',
                     center: ['40%', '50%'],
                     data: <%=PregionData%>,
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-                }
-            ]
-        };
-
-        myChart_pie_region.setOption(option_pie_region);
-    </script><%--地区饼图(demo)--%>
-
-    <script type="text/javascript">
-        var myChart_pie_product = echarts.init(document.getElementById('pie_product'), 'macarons');
-            option_pie_product = {
-                title: {
-                    text: '产品销售额业绩',
-                    subtext: '月度or年度默认显示前十（不含税）',
-                    x: 'center'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c}元 ({d}%)"
-                },
-                legend: {
-                    type: 'scroll',
-                    orient: 'vertical',
-                    left: '78%',
-                    top: '22%',
-                    bottom: '22%',
-                    data:<%=Pproductlegend%>,
-                selected:<%=PproductTop%>
-            },
-            toolbox: {
-                show: true,
-                top: '15%',
-                right: '1%',
-                left: '79%',
-                feature: {
-                    mark: { show: true },
-                    dataView: { show: true, readOnly: false },
-                    restore: { show: true },
-                    saveAsImage: { show: true },
-                }
-            },
-            calculable: true,
-            series: [
-                {
-                    name: '产品销售额',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['40%', '50%'],
-                    data: <%=PproductData%>,
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
@@ -582,36 +529,93 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
                     }
                 }
             ]
-            };
+        };
 
-            myChart_pie_product.setOption(option_pie_product);
-    </script><%--产品饼图(demo)--%>
-    
+        myChart_pie_region.setOption(option_pie_region);
+    </script>
+    <%--地区饼图(demo)--%>
+
     <script type="text/javascript">
-        var myChart3 = echarts.init(document.getElementById('test3'),'macarons');
-        option3 = {
+        var myChart_pie_product = echarts.init(document.getElementById('pie_product'), 'macarons');
+        option_pie_product = {
             title: {
-                text: '销售量价图',
-                subtext: '近一周数据',
+                text: '产品销售额业绩',
+                subtext: '月度or年度默认显示前十（不含税）',
+                x: 'center'
             },
             tooltip: {
                 trigger: 'item',
+                formatter: "{a} <br/>{b} : {c}元 ({d}%)"
             },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
             legend: {
                 type: 'scroll',
-                left: '17%',
-                right: '17%',
-                top:'2%',
-                data: <%=DataLegend%>,
+                orient: 'vertical',
+                left: '78%',
+                top: '22%',
+                bottom: '22%',
+                data:<%=Pproductlegend%>,
+                    selected:<%=PproductTop%>
+            },
+                toolbox: {
+                    show: true,
+                    top: '15%',
+                    right: '1%',
+                    left: '79%',
+                    feature: {
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        restore: { show: true },
+                        saveAsImage: { show: true },
+                    }
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: '产品销售额',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['40%', '50%'],
+                        data: <%=PproductData%>,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        myChart_pie_product.setOption(option_pie_product);
+    </script>
+    <%--产品饼图(demo)--%>
+
+    <script type="text/javascript">
+            var myChart3 = echarts.init(document.getElementById('test3'), 'macarons');
+            option3 = {
+                title: {
+                    text: '销售量价图',
+                    subtext: '近一周数据',
+                },
+                tooltip: {
+                    trigger: 'item',
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                calculable: true,
+                legend: {
+                    type: 'scroll',
+                    left: '17%',
+                    right: '17%',
+                    top: '2%',
+                    data: <%=DataLegend%>,
                 selected:<%=DataLegend_false%>
             },
             xAxis: [
@@ -638,10 +642,11 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
                 <%=Ldata%>
             ]
         };
-        
+
         myChart3.setOption(option3);
-    </script><%--销售量价图--%>
-    
+    </script>
+    <%--销售量价图--%>
+
     <script type="text/javascript">
         var myChart4 = echarts.init(document.getElementById('test4'));
         myChart4.setOption({
@@ -660,110 +665,112 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
                 name: '销量',
                 type: 'bar',
                 data: []
-}]
-});
-            
-            $.get('data.json').done(function(data) {
-            // 填入数据
-                myChart4.setOption({
-                    xAxis: {
-                        data: data.name
-                    },
-                    series: [{
-                        // 根据名字对应到相应的系列
-                        name: '销量',
-                        data: data.data
-}]
-                    });
-                });
+            }]
+        });
 
-    </script><%--json导入数据--%>
-    
-    <script type="text/javascript">
-        var myChart5 = echarts.init(document.getElementById('test5'));
-        $(function() {
-            $('#select').on('change', function() {
-                var val = $(this).val();
-                _ajax(val);
+        $.get('data.json').done(function (data) {
+            // 填入数据
+            myChart4.setOption({
+                xAxis: {
+                    data: data.name
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    name: '销量',
+                    data: data.data
+                }]
             });
         });
 
-        function _ajax(len) {
-            $.ajax({
-                url: 'index.json',
-                type: 'get',
-                success: function (res) {
-                    /*$(res).attr("rows", "1");json中用第二个参数的值替换第一个参数原本的值*/
-                    var xData = [];
-                    var yData1 = [];
-                    var yData2 = [];
-                    for (var i = 0; i < 5; i++) {
-                        xData.push(res.rows[len - 1].cells[i].time.slice(5));
-                    }
-                    for (var n = 0; n < 5; n++) {
-                        yData1.push(res.rows[len - 1].cells[n].quantity);
-                    }
-                    for (var m = 0; m < 5; m++) {
-                        yData2.push(res.rows[len - 1].cells[m].price);
-                    }
+    </script>
+    <%--json导入数据--%>
 
-                    myChart5.setOption({
-                        legend: {
-                            data: ['数量', '单价']
-                        },
-                        xAxis: {
-                            type: 'category',
-                            boundaryGap: true,
-                            data: xData
-                        },
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                type: 'cross',
-                                label: {
-                                    backgroundColor: '#283b56'
-                                }
-                            }
-                        },          
-                        yAxis: [
-                        {
-                            name: '数量',
-                            scale: true,
-                            type: 'value'
-                        },
-                        {
-                            name: '单价',
-                            scale: true,
-                            type: 'value'
-                        }
-                         ],
-                        series: [{
-                            name: '数量',
-                            type: 'bar',
-                            data: yData1
-                        },
-                        {
-                            name: '单价',
-                            yAxisIndex: 1,
-                            type: 'line',
-                            data: yData2
-                        },
-                               ]
-                    });
-                }
+    <script type="text/javascript">
+            var myChart5 = echarts.init(document.getElementById('test5'));
+            $(function () {
+                $('#select').on('change', function () {
+                    var val = $(this).val();
+                    _ajax(val);
+                });
             });
+
+            function _ajax(len) {
+                $.ajax({
+                    url: 'index.json',
+                    type: 'get',
+                    success: function (res) {
+                        /*$(res).attr("rows", "1");json中用第二个参数的值替换第一个参数原本的值*/
+                        var xData = [];
+                        var yData1 = [];
+                        var yData2 = [];
+                        for (var i = 0; i < 5; i++) {
+                            xData.push(res.rows[len - 1].cells[i].time.slice(5));
+                        }
+                        for (var n = 0; n < 5; n++) {
+                            yData1.push(res.rows[len - 1].cells[n].quantity);
+                        }
+                        for (var m = 0; m < 5; m++) {
+                            yData2.push(res.rows[len - 1].cells[m].price);
+                        }
+
+                        myChart5.setOption({
+                            legend: {
+                                data: ['数量', '单价']
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: true,
+                                data: xData
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    label: {
+                                        backgroundColor: '#283b56'
+                                    }
+                                }
+                            },
+                            yAxis: [
+                                {
+                                    name: '数量',
+                                    scale: true,
+                                    type: 'value'
+                                },
+                                {
+                                    name: '单价',
+                                    scale: true,
+                                    type: 'value'
+                                }
+                            ],
+                            series: [{
+                                name: '数量',
+                                type: 'bar',
+                                data: yData1
+                            },
+                            {
+                                name: '单价',
+                                yAxisIndex: 1,
+                                type: 'line',
+                                data: yData2
+                            },
+                            ]
+                        });
+                    }
+                });
             }
-    </script><%--结合下拉框(未处理完成)--%>
-    
+    </script>
+    <%--结合下拉框(未处理完成)--%>
+
     <script type="text/javascript">
         // 百度地图API功能
         var map = new BMap.Map('map');
         map.addControl(new BMap.NavigationControl());
-        map.enableScrollWheelZoom(true); 
+        map.enableScrollWheelZoom(true);
         var point = new BMap.Point(121.667261, 29.998284);
-        map.centerAndZoom(point, 13); 
+        map.centerAndZoom(point, 13);
         var tileLayer = new BMap.TileLayer({ isTransparentPng: true });
-        tileLayer.getTilesUrl = function (tileCoord, zoom){
+        tileLayer.getTilesUrl = function (tileCoord, zoom) {
             var x = tileCoord.x;
             var y = tileCoord.y;
             return 'tiles/' + zoom + '/tile' + x + '_' + y + '.png';  //根据当前坐标，选取合适的瓦片图
@@ -1312,7 +1319,8 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
         myChart_map.setOption(option_map);
         /*var bmap = myChart_map.getModel().getComponent('bmap').getBMap();
         bmap.addControl(new BMap.MapTypeControl());*/
-    </script><%--地图bmap(数据未处理)--%>
+    </script>
+    <%--地图bmap(数据未处理)--%>
 
     <script type="text/javascript">
        /* var myChart_map2 = echarts.init(document.getElementById('map2'));
@@ -1899,7 +1907,8 @@ myChart_yibiaopan.setOption(option_yibiaopan, true);
             ]
         };
         myChart_map2.setOption(option_map2);
-        
-    </script><%--标线地图map(未成功)--%>
+
+    </script>
+    <%--标线地图map(未成功)--%>
 </body>
 </html>

@@ -130,21 +130,6 @@
             drDB.Read()
             fTicketUnitNum = drDB.Item("number")
             drDB.Close()
-            ' Dim iRowCount As Integer
-            'sSql = "select count(distinct billdate) as count from echart_sell where goodsname='维生素A-(电仪)(照明)'"
-            'db = New DB
-            'drDB = db.GetDataReader(sSql)
-            'drDB.Read()
-            'iRowCount = drDB.Item("count")
-            'drDB.Close()
-            'Dim j As Integer = 0
-            'sSql = "select distinct billdate from echart_sell"
-            'db = New DB
-            'drDB = db.GetDataReader(sSql)
-            'While drDB.Read
-            'flDate(j) = drDB.Item("billdate").ToString()
-            'j = j + 1
-            'End While
 
             Dim j As Integer = 0
             Dim t As Integer = 0
