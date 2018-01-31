@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>DataSheet</title>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <style type="text/css">
         table {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -13,7 +14,7 @@
             margin-left: auto;
             margin-right: auto;
             border-collapse: collapse;
-            }
+        }
 
             table caption {
                 font-weight: 700;
@@ -37,6 +38,36 @@
     </style>
 </head>
 <body>
+    <select id="select">
+        <%=IntervalSelect %>
+    </select>
+    <table id="accountage_custom" border="1">
+    </table>
+    <script type="text/javascript">
+        $(function () {
+            $('#select').on('change', function () {
+                var val = $(this).val();
+                _ajax(val);
+            });
+        });
+        /*post value，再把value作为数组编号获得区间*/
+        function _ajax(num) {
+            $.ajax({
+                type: 'post',
+                url: 'IntervalSelect.ashx',
+                dataType: "html",
+                data: {
+                    num: num
+                },
+                success: function (data) {
+                    $("#accountage_custom").html(data);
+                },
+                error: function () {
+                    alert("出错了！请稍候再试！");
+                }
+            });
+        }
+    </script>
     <table id="accountage_remind" border="1">
         <caption>自定义账龄提醒表</caption>
         <tr>

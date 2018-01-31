@@ -4,12 +4,29 @@
     Public AgeLabel As New StringBuilder()
     Public AccountAge_R As New StringBuilder()
     Public AgeLabel_R As New StringBuilder()
+    Public IntervalSelect As New StringBuilder()
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim db As DB
         Dim drDB As SqlClient.SqlDataReader
         Dim sSql As String
         Try
+            'IntervalNum用于向前台下拉框标id
+            Dim IntervalNum As Integer = 0
+            '下拉框编写
+            sSql = "select * from dbo.bas_custominterval"
+            db = New DB
+            drDB = db.GetDataReader(sSql)
+            While drDB.Read()
+                If IsDBNull(drDB.Item("end")) Then
+                    IntervalSelect.Append("<option value=""" & IntervalNum & """>" & drDB.Item("begin") + 1 & "天及以上</option>")
+                Else
+                    IntervalSelect.Append("<option value=""" & IntervalNum & """>" & drDB.Item("begin") + 1 & "-" & drDB.Item("end") & "天</option>")
+                End If
+                IntervalNum = IntervalNum + 1
+            End While
+            drDB.Close()
+
             '读取数据库中区间设置
             '定义agenumber用于得到区间节点数（区间数-1），用户最多设置十个节点
             Dim agenumber As Integer = 0
@@ -21,7 +38,6 @@
             Dim abegin As Integer
             Dim aend As Integer = 0
             sSql = "select * from dbo.bas_agesectionset"
-            db = New DB
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             While Not IsDBNull(drDB.Item(tt(agenumber)))
@@ -34,7 +50,7 @@
                 AgeLabel_R.Append("<th>" & （abegin + 1） & "天及以上</th>")
             Else
                 aend = drDB.Item("end")
-                AgeLabel_R.Append("<th>" & abegin & "-" & aend & "天</th>")
+                AgeLabel_R.Append("<th>" & abegin + 1 & "-" & aend & "天</th>")
             End If
             drDB.Close()
             '账龄表标签行
@@ -103,7 +119,7 @@
                     pre_t_bal = pre_t_bal + a_bal
                 End If
                 '始终更新前三列,存入用于寄存的string变量
-                StringHolder1 = """<tr><td>" & drDB.Item("clientname") & "</td><td>" & drDB.Item("bal_fx") & "</td><td>" & drDB.Item("t_bal") & "</td>"""
+                StringHolder1 = "<tr><td>" & drDB.Item("clientname") & "</td><td>" & drDB.Item("bal_fx") & "</td><td>" & drDB.Item("t_bal") & "</td>"
                 If aend = 0 Then
                     If drDB.Item("a_age") >= abegin + 1 Then
                         agetotal_r = agetotal_r + a_bal
@@ -113,7 +129,7 @@
                         agetotal_r = agetotal_r + a_bal
                     End If
                 End If
-                StringHolder_R = """<td>" & agetotal_r & "</td></tr>"""
+                StringHolder_R = "<td>" & agetotal_r & "</td></tr>"
                 '这个判断用于统计不同区间各自的总金额。先select用户设置的区间个数，根据区间的个数进行分支（简单粗暴）
                 Select Case agenumber
                     Case 1
@@ -123,7 +139,7 @@
                             agetotal(1) = agetotal(1) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td></tr>"
                     Case 2
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -133,7 +149,7 @@
                             agetotal(2) = agetotal(2) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td></tr>"
                     Case 3
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -145,7 +161,7 @@
                             agetotal(3) = agetotal(3) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td></tr>"
                     Case 4
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -159,7 +175,7 @@
                             agetotal(4) = agetotal(4) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td></tr>"
                     Case 5
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -175,7 +191,7 @@
                             agetotal(5) = agetotal(5) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td></tr>"
                     Case 6
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -193,7 +209,7 @@
                             agetotal(6) = agetotal(6) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td></tr>"
                     Case 7
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -213,7 +229,7 @@
                             agetotal(7) = agetotal(7) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td></tr>"
                     Case 8
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -235,7 +251,7 @@
                             agetotal(8) = agetotal(8) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td><td>" & agetotal(8) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td><td>" & agetotal(8) & "</td></tr>"
                     Case 9
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -259,7 +275,7 @@
                             agetotal(9) = agetotal(9) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td><td>" & agetotal(8) & "</td><td>" & agetotal(9) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td><td>" & agetotal(8) & "</td><td>" & agetotal(9) & "</td></tr>"
                     Case 10
                         If drDB.Item("a_age") >= 1 And drDB.Item("a_age") <= AgeData(0) Then
                             agetotal(0) = agetotal(0) + a_bal
@@ -285,7 +301,7 @@
                             agetotal(10) = agetotal(10) + a_bal
                         End If
                         '更新账龄数据,存入用于寄存的string变量
-                        StringHolder2 = """<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td><td>" & agetotal(8) & "</td><td>" & agetotal(9) & "</td><td>" & agetotal(10) & "</td></tr>"""
+                        StringHolder2 = "<td>" & agetotal(0) & "</td><td>" & agetotal(1) & "</td><td>" & agetotal(2) & "</td><td>" & agetotal(3) & "</td><td>" & agetotal(4) & "</td><td>" & agetotal(5) & "</td><td>" & agetotal(6) & "</td><td>" & agetotal(7) & "</td><td>" & agetotal(8) & "</td><td>" & agetotal(9) & "</td><td>" & agetotal(10) & "</td></tr>"
                 End Select
                 '更新pre_clientname
                 pre_clientname = drDB.Item("clientname")
