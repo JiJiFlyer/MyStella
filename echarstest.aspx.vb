@@ -77,6 +77,8 @@
             Next i
             AgeLabel.Append("<th>" & （AgeData(agenumber - 1) + 1).ToString() & "天及以上</th>")
 
+            '提醒表区间总额定义
+            Dim agetotal_r As Double = 0
             '账龄区间总额数组定义，用于累加该区间内金额
             Dim agetotal(10) As Double
             For i = 0 To 10
@@ -92,6 +94,8 @@
             Dim StringHolder1 As String
             '账龄数据寄存
             Dim StringHolder2 As String
+            '提醒表数据寄存
+            Dim StringHolder_R As String
             '第一个查询：初始化pre_clientname为表中第一位客户
             sSql = "select top 1 clientname from dbo.echart_accountage order by clientname,billdate desc"
             drDB = db.GetDataReader(sSql)
@@ -106,12 +110,18 @@
             While drDB.Read
                 '判断是否为新客户
                 If drDB.Item("clientname") <> pre_clientname Then
-                    '若是，重置前一客户统计的pre_t_bal和agetotal
+                    '若上一客户在提醒表范围内有金额，则填入表中
+                    If agetotal_r <> 0 Then
+                        AccountAge_R.Append(StringHolder1)
+                        AccountAge_R.Append(StringHolder_R)
+                    End If
+                    '若是新客户，重置前一客户统计的pre_t_bal和agetotal和agetotal_r
                     For i = 0 To 10
                         agetotal(i) = 0
                     Next i
                     pre_t_bal = 0
-                    '更新上一客户的数据
+                    agetotal_r = 0
+                    '将上一客户的数据填入账龄表
                     AccountAge.Append(StringHolder1)
                     AccountAge.Append(StringHolder2)
                 End If
@@ -127,6 +137,16 @@
                 End If
                 '始终更新前三列,存入用于寄存的string变量
                 StringHolder1 = """<tr><td>" & drDB.Item("clientname") & "</td><td>" & drDB.Item("bal_fx") & "</td><td>" & drDB.Item("t_bal") & "</td>"""
+                If aend = 0 Then
+                    If drDB.Item("a_age") >= abegin + 1 Then
+                        agetotal_r = agetotal_r + a_bal
+                    End If
+                Else
+                    If drDB.Item("a_age") >= abegin + 1 And drDB.Item("a_age") <= aend Then
+                        agetotal_r = agetotal_r + a_bal
+                    End If
+                End If
+                StringHolder_R = """<td>" & agetotal_r & "</td></tr>"""
                 '这个判断用于统计不同区间各自的总金额。先select用户设置的区间个数，根据区间的个数进行分支（简单粗暴）
                 Select Case agenumber
                     Case 1
@@ -303,7 +323,12 @@
                 '更新pre_clientname
                 pre_clientname = drDB.Item("clientname")
             End While
-            '更新最后一行的数据
+            '填写提醒表最后一行
+            If agetotal_r <> 0 Then
+                AccountAge_R.Append(StringHolder1)
+                AccountAge_R.Append(StringHolder_R)
+            End If
+            '填写账龄表最后一行
             AccountAge.Append(StringHolder1)
             AccountAge.Append(StringHolder2)
             drDB.Close()

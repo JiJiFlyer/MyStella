@@ -18,7 +18,7 @@
     <script src="echars/macarons.js"></script>
     <script src="../js/RPC.js"></script>
     <style type="text/css"> 
-    #accountage
+    table
         {
         font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
         width:90%;
@@ -26,18 +26,18 @@
         margin-right: auto;
         border-collapse:collapse;
         }
-        #accountage caption {
+    table caption {
             font-weight:700;
             font-size:18px;
         }
-    #accountage td, #accountage th 
+    table td, table th 
         {
         font-size:1em;
         border:1px solid #98bf21;
         padding:3px 7px 2px 7px;
         }
 
-    #accountage th 
+    table th 
         {
         font-size:1.1em;
         text-align:left;
@@ -68,7 +68,7 @@
     <table id="accountage_remind" border="2">
     <caption>自定义账龄提醒表</caption>
     <tr><th>客户</th><th>余额方向</th><th>余额</th><%=AgeLabel_R%></tr>
-    
+    <%=AccountAge_R%>
     </table>
     <table id="accountage" border="2">
     <caption>账龄表</caption>
