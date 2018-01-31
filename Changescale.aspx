@@ -90,7 +90,7 @@
                 <td>
                     <input type="text" id="salesMax" placeholder="最大值"></td>
                 <td>
-                    <asp:DropDownList ID="salesUnit" class="drop" Style="width: 100px" readOnle="false" runat="server"></asp:DropDownList></td>
+                    <asp:DropDownList id="salesUnit" class="drop" Style="width: 100px" readOnle="false" runat="server"></asp:DropDownList></td>
                 <td rowspan="3">
                     <button id="button" class="btn" onclick="change()">确定</button></td>
             </tr>
@@ -123,32 +123,38 @@
             var fbankrollmax = document.getElementById("bankrollMax").value;
             var fticketmin = document.getElementById("ticketMin").value;
             var fticketmax = document.getElementById("ticketMax").value;
-            var fsalesunit = document.getElementById("salesUnit").value;
-            var fbankrollunit = document.getElementById("bankrollUnit").value;
-            var fticketunit = document.getElementById("ticketUnit").value;
+
+            var ddl1 = document.getElementById("salesUnit");
+            var fsalesunit = ddl1.options[ddl1.selectedIndex].text;  
+
+            var ddl2 = document.getElementById("bankrollUnit");
+            var fbankrollunit = ddl2.options[ddl2.selectedIndex].text;  
+
+            var ddl3 = document.getElementById("ticketUnit");
+            var fticketunit = ddl3.options[ddl3.selectedIndex].text;  
+            
             var oRPC = new window.server("Changescale.aspx", "runSql");
-            var sSql = "update tickset set min = '" & fsalesmin & "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'";
+            var sSql = "update tickset set min = " + fsalesmin + " where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'";
             oRPC.call(sSql);
-            sSql = "update tickset set min = '" & fsalesmin & "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'";
+            sSql = "update tickset set max = " + fsalesmax + " where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'";
             oRPC.call(sSql);
-            sSql = "update tickset set max = '" & fsalesmax & "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'";
+            sSql = "update tickset set unit = '" + fsalesunit + "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'";
             oRPC.call(sSql);
-            sSql = "update tickset set unit = '" & fsalesunit & "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'";
+            sSql = "update tickset set min = " + fbankrollmin + " where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'";
             oRPC.call(sSql);
-            sSql = "update tickset set min = '" & fbankrollmin & "' where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'";
+            sSql = "update tickset set max = " + fbankrollmax + " where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'";
             oRPC.call(sSql);
-            sSql = "update tickset set max = '" & fbankrollmax & "' where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'";
+            sSql = "update tickset set unit = '" + fbankrollunit + "' where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'";
             oRPC.call(sSql);
-            sSql = "update tickset set unit = '" & fbankrollunit & "' where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'";
+            sSql = "update tickset set min = " + fticketmin + " where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'";
             oRPC.call(sSql);
-            sSql = "update tickset set min = '" & fticketmin & "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'";
+            sSql = "update tickset set max = " + fticketmax + " where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'";
             oRPC.call(sSql);
-            sSql = "update tickset set max = '" & fticketmax & "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'";
-            oRPC.call(sSql);
-            sSql = "update tickset set unit = '" & fticketunit & "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'";
+            sSql = "update tickset set unit = '" + fticketunit + "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'";
             oRPC.call(sSql);
             /*window.dialogArguments.Macro_RPC.runSql("update tickset set max = '" & fticketunit & "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'")*/
-            window.alert("执行成功");
+            window.opener.location.reload();
+            window.close();
         }
     </script>
 </body>

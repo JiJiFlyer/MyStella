@@ -89,7 +89,9 @@
                         title: '自定义扩展方法',
                         icon: 'image://http://echarts.baidu.com/images/favicon.png',
                         onclick: function () {
-                            openDialog("Changescale.aspx", "250", "600");
+                            var iTop = (window.screen.availHeight -  150) / 2; //获得窗口的垂直位置;  
+                            var iLeft = (window.screen.availWidth -  600) / 2; //获得窗口的水平位置;
+                            window.open("Changescale.aspx", 'newwindow', 'height=150,width=600,top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
                         }
                     }
                 }
