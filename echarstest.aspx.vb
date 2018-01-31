@@ -57,7 +57,7 @@
                 agenumber = agenumber + 1
             End While
             drDB.Close()
-            '标签行呈现,agenumber为0时要再考虑
+            '标签行呈现
             AgeLabel.Append("<th>1-" & AgeData(0).ToString() & "天</th>")
             For i = 1 To agenumber - 1
                 AgeLabel.Append("<th>" & (AgeData(i - 1) + 1).ToString() & "-" & AgeData(i).ToString() & "天</th>")
