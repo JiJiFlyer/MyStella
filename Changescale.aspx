@@ -1,4 +1,4 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Changescale.aspx.vb"  %>
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Changescale.aspx.vb" Inherits="Jamada_4_0.Changescale" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -19,11 +19,10 @@
         width:90%;
         margin-left: auto; 
         margin-right: auto;
-        border-collapse:collapse;
         padding:5px;
         }
         td{
-        font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-family:'Open Sans', sans-serif;
         font-size:14px;
         font-weight:bold;
         text-align:center; 
@@ -80,8 +79,8 @@
     <table>
     <tr>
     <td>销售收入</td>
-    <td><input type="text" id="salesMin" placeholder="最小值" value=""></td>
-    <td><input type="text" id="salesMax" placeholder="最大值" value=""></td>
+    <td><input type="text" id="salesMin" placeholder="最小值"></td>
+    <td><input type="text" id="salesMax" placeholder="最大值"></td>
     <td><asp:dropdownlist id="salesUnit" class="drop" style="WIDTH: 100px" readOnle="false" runat="server"></asp:dropdownlist></td>
     <td rowspan="3"><button id="button" class="btn" onclick = "change()">确定</button></td>
     </tr>
@@ -104,10 +103,23 @@
         function change() 
         {
             var fsalesmin = document.getElementById("salesMin").value;
-            var fsalesmax = document.getElementById("salesmax").value;
+            var fsalesmax = document.getElementById("salesMax").value;
+            var fbankrollmin = document.getElementById("bankrollMin").value;
+            var fbankrollmax = document.getElementById("bankrollMax").value;
+            var fticketmin = document.getElementById("ticketMin").value;
+            var fticketmax = document.getElementById("ticketMax").value;
+            var fsalesunit = document.getElementById("salesUnit").value;
+            var fbankrollunit = document.getElementById("bankrollUnit").value;
+            var fticketunit = document.getElementById("ticketUnit").value;
             window.dialogArguments.Macro_RPC.runSql("update tickset set min = '" & fsalesmin & "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'")
-
-
+            window.dialogArguments.Macro_RPC.runSql("update tickset set max = '" & fsalesmax & "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'")
+            window.dialogArguments.Macro_RPC.runSql("update tickset set max = '" & fsalesunit & "' where autoinc='10FE9836-AE6B-47F1-AF19-05D1C1D1140C'")
+            window.dialogArguments.Macro_RPC.runSql("update tickset set min = '" & fbankrollmin & "' where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'")
+            window.dialogArguments.Macro_RPC.runSql("update tickset set max = '" & fbankrollmax & "' where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'")
+            window.dialogArguments.Macro_RPC.runSql("update tickset set max = '" & fbankrollunit & "' where autoinc='B8485BEE-2599-4AE5-83BE-BDA31BB0434D'")
+            window.dialogArguments.Macro_RPC.runSql("update tickset set min = '" & fticketmin & "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'")
+            window.dialogArguments.Macro_RPC.runSql("update tickset set max = '" & fticketmax & "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'")
+            window.dialogArguments.Macro_RPC.runSql("update tickset set max = '" & fticketunit & "' where autoinc='5A06D2E6-594A-4E31-9396-8AD472A720DF'")
         }
 	</script>
 </body>
