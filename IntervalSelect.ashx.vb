@@ -5,10 +5,20 @@ Public Class IntervalSelect
     Implements System.Web.IHttpHandler
 
     Sub ProcessRequest(ByVal context As HttpContext) Implements IHttpHandler.ProcessRequest
+        context.Response.ContentType = "text/plain"
+        '接受前台传的num获得begin和end数组的标号，确定区间
+        Dim num As Integer
+        num = context.Request.Form("num")
+        context.Response.Write(Selecttable(num))
+    End Sub
+
+    Function Selecttable(ByVal num As Integer) As StringBuilder
+
         Dim db As DB
         Dim drDB As SqlClient.SqlDataReader
         Dim sSql As String
-        '存数据库中begin和end数据
+
+        '建立数组存数据库中begin和end数据
         Dim Intervalbegin(20) As Integer
         Dim Intervalend(20) As Integer
         Dim a As Integer = 0
@@ -26,11 +36,9 @@ Public Class IntervalSelect
             a = a + 1
         End While
         drDB.Close()
-        context.Response.ContentType = "text/plain"
-        '接受前台传的数组标号
-        Dim num As Integer
-        num = context.Request.Form.Get("num")
+
         '定义返回的html代码字符串
+        '标签行填写：
         Dim customtable As New StringBuilder()
         customtable.Append("<caption>自定义账龄提醒表</caption>
         <tr>
@@ -38,12 +46,14 @@ Public Class IntervalSelect
             <th>余额方向</th>
             <th>余额</th>")
         If Intervalend(num) = 0 Then
-            customtable.Append("<th>" & （Intervalbegin(num) + 1） & "天及以上</th>")
+            customtable.Append("<th>" & Intervalbegin(num) & "天及以上</th>")
         Else
-            customtable.Append("<th>" & Intervalbegin(num) + 1 & "-" & Intervalend(num) & "天</th>")
+            customtable.Append("<th>" & Intervalbegin(num) & "-" & Intervalend(num) & "天</th>")
         End If
         customtable.Append("</tr>")
+        Dim precus As String = customtable.ToString()
 
+        '数据处理计算及填写：
         '提醒表区间总额定义
         Dim agetotal_r As Double = 0
         '该客户之前a_bal的累加和
@@ -94,11 +104,11 @@ Public Class IntervalSelect
             '始终更新前三列,存入用于寄存的string变量
             StringHolder1 = "<tr><td>" & drDB.Item("clientname") & "</td><td>" & drDB.Item("bal_fx") & "</td><td>" & drDB.Item("t_bal") & "</td>"
             If Intervalend(num) = 0 Then
-                If drDB.Item("a_age") >= Intervalbegin(num) + 1 Then
+                If drDB.Item("a_age") >= Intervalbegin(num) Then
                     agetotal_r = agetotal_r + a_bal
                 End If
             Else
-                If drDB.Item("a_age") >= Intervalbegin(num) + 1 And drDB.Item("a_age") <= Intervalend(num) Then
+                If drDB.Item("a_age") >= Intervalbegin(num) And drDB.Item("a_age") <= Intervalend(num) Then
                     agetotal_r = agetotal_r + a_bal
                 End If
             End If
@@ -112,10 +122,16 @@ Public Class IntervalSelect
             customtable.Append(StringHolder_R)
         End If
         drDB.Close()
+        '若此时custom与填数据前无变化，显示无账龄信息
+        If customtable.ToString() = precus Then
+            customtable.Clear()
+            customtable.Append("<th>当前自定义区间内无账龄信息</th>")
+        End If
+        Return customtable
+    End Function
 
-        context.Response.Write(customtable)
 
-    End Sub
+
 
     ReadOnly Property IsReusable() As Boolean Implements IHttpHandler.IsReusable
         Get

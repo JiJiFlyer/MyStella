@@ -68,16 +68,6 @@
             });
         }
     </script>
-    <table id="accountage_remind" border="1">
-        <caption>自定义账龄提醒表</caption>
-        <tr>
-            <th>客户</th>
-            <th>余额方向</th>
-            <th>余额</th>
-            <%=AgeLabel_R%>
-        </tr>
-        <%=AccountAge_R%>
-    </table>
     <table id="accountage" border="1">
         <caption>账龄表</caption>
         <tr>
