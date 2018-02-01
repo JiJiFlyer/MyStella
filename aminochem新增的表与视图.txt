@@ -1,9 +1,21 @@
 表：
 bas_moneyunit
 tickset
-bas_agesectionset
-bas_custominteval
+bas_agesectionset 
+账龄区间表，有10个固定的字段，记录最多10个端点，可表示11个区间
+例：表中t0:aa；t1:bb；t2:cc ——>1-aa天，（aa+1）-bb天，（bb+1）-cc天，（cc+1）天及以上
+
+bas_custominteval 
+自定义账龄区间设置的表，已经有用户设置的多个begin和end 然后做下拉列表一次显示一个区间统计。
+例：表中begin:10；end:15 ——> 大于等于10，小于等于15（10-15天）；
+	begin：10；end：null ——> 大于等于10（10天及以上）。
 视图：
 echart_sell
 echart_buy
 echart_accountage
+
+账龄：
+数据库做一张账龄区间表，有10个固定的字段，记录最多10个端点，可表示11个区间（最后一个端点bb：aa-bb天，bb天以上）。
+自定义账龄：
+数据库已经有用户设置的多个begin和end 然后做下拉列表一次显示一个区间统计。
+数据库中begin：10；end：15 ——> 大于等于10，小于等于15（10-15天）；begin：10；end：null ——> 大于等于10（10天及以上）。
