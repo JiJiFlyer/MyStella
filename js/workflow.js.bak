@@ -1,0 +1,258 @@
+var cWORKFLOW_START_CYCLENAME = "\u5f00\u59cb"; var cWORKFLOW_END_CYCLENAME = "\u7ed3\u675f"; var cWORKFLOW_START_CYCLEID = "00000000-0000-0000-0000-000000000000"; var cWORKFLOW_END_CYCLEID = "ffffffff-ffff-ffff-ffff-ffffffffffff"; var cWORKFLOW_PUSH = "push"; var cWORKFLOW_SUBMIT = "submit"; var cWORKFLOW_SIGN = "signfor"; var cWORKFLOW_PASS = "pass"; var cWORKFLOW_REJECT = "reject"; var cWORKFLOW_RETURNTO = "returnto"; var cWORKFLOW_REVISE = "revise"; var cWORKFLOW_INSTANCE_STATUS_DRAFT = "1"; var cWORKFLOW_INSTANCE_STATUS_APPROVING = "2"; var cWORKFLOW_INSTANCE_STATUS_APPROVED = "8"; var cWORKFLOW_INSTANCE_STATUS_ACTIVE = "16"; var cWORKFLOW_INSTANCE_STATUS_REJECTED = "4"; var cWORKFLOW_INSTANCE_STATUS_EXECUTIVE = "64"; var cWORKFLOW_INSTANCE_STATUS_FINISHED = "128"; var cWORKFLOW_INSTANCE_STATUS_CANCELLATION = "32"; var cWORKFLOW_INSTANCE_STATUS_REVISE ="2048";var cWORKFLOW_PANEL_ID = "__workflow"; var cWORKFLOW_EXEC_NAME = "__workflow_exec"; var cWORKFLOW_COMMENTS_ID = "__workflow_comments"; function __workflow_exec() {
+    var a = null; var b = ""; a = document.getElementById(cWORKFLOW_COMMENTS_ID); if (a != null) { b = a.value } switch (arguments[0]) {case cWORKFLOW_PUSH: Macro_Entity.wfl.pushIntoWorkflow(); break; case cWORKFLOW_SUBMIT: Macro_Entity.wfl.submit(arguments[1], b); break; case cWORKFLOW_SIGN: Macro_Entity.wfl.signfor(arguments[1]); break; case cWORKFLOW_PASS: Macro_Entity.wfl.pass(arguments[1], b); break;case cWORKFLOW_REJECT: if (b == "") { window.alert("必须填写拒绝原因"); return; } Macro_Entity.wfl.reject(arguments[1], b); break;  case cWORKFLOW_RETURNTO: Macro_Entity.wfl.returnto(); break; case cWORKFLOW_REVISE: Macro_Entity.wfl.revise(arguments[1]); break} 
+} function workflow(a) { this.entity = a; this.URL = Macro_VAR.RootPath + "xmlengine/workflow.aspx" }workflow.prototype = { entity: null, URL: "", popOutWorkflow: function() { try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } var a = ""; var b = ""; if (arguments.length > 0) { a = arguments[0] } else { a = this.entity.getProperty("autoinc") } b = this.entity.id; var d = new window.server(this.URL, "PopOutWorkflow"); d.call(b, a); if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("PopOutWorkflow")) } return Macro_VAR.SuccessCode } catch (c) { window.alert("workflow popOutWorkflow Error:" + c.message); return Macro_VAR.ErrorCode } }, pushIntoWorkflow: function() { try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } 
+/*
+此处代码为安诺项目暂时注销
+if (this.entity.getProperty("input_userid") != Macro_VAR.LoginUserId) 
+{ throw new Error(0, window.sWfl_ErrMsg[4]) } 
+*/
+if (this.entity.getAttribute("isDataChanged") == true) { window.alert(window.sWfl_ErrMsg[3]); return } var a = ""; var b = ""; if (arguments.length > 0) { a = arguments[0] } else { a = this.entity.getProperty("autoinc") } b = this.entity.id; var d = new window.server(this.URL, "PushIntoWorkflow"); d.call(Macro_VAR.LoginUserId, b, a); if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("PushIntoWorkflow")) } this.show(); return Macro_VAR.SuccessCode } catch (c) { window.alert("workflow pushIntoWorkflow Error:" + c.message); return Macro_VAR.ErrorCode } },
+    moveon: function() {
+        try {
+            var sOperation = ""; var sInstanceRunningId = ""; var sComments = ""; var bMoveOn = true; var _evt = null;
+            if (arguments.length < 3)
+            { throw new Error(0, sWfl_ErrMsg[0]) }
+            sInstanceRunningId = arguments[0];
+            sOperation = arguments[1];
+            sComments = arguments[2];
+            _evt = document.createEventObject();
+            _evt.startCycle = this.getStartCycle();
+            _evt.comments = sComments;
+            if (_evt.startCycle == null) { return Macro_VAR.ErrorCode } _evt.operation = sOperation; _evt.nextCycle = null;
+            if (typeof (window.oncyclechange) == "function") { bMoveOn = window.oncyclechange(_evt) } if (bMoveOn == false) { return Macro_VAR.ErrorCode }
+            //_evt.nextCycle = this.getNextCycle(_evt.startCycle.id, _evt.operation);
+            _evt.nextCycle = this.getNextCycle(_evt.startCycle, sInstanceRunningId, _evt.operation);
+            if (_evt.nextCycle == null) { return Macro_VAR.ErrorCode }
+			
+			if (_evt.nextCycle.isWait == true && _evt.nextCycle.id == _evt.startCycle.id) {
+                var oRPCMoveOn = new window.server(this.URL, "MoveOn");
+                oRPCMoveOn.call(Macro_VAR.LoginUserId, this.entity.id, this.entity.getProperty("autoinc"), sInstanceRunningId, sOperation, _evt.nextCycle.id, sComments, "", "1");
+                if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("MoveOn")) } 
+                _evt.nextCycle.workflowStatus = XMLRecord("MoveOn");
+                if (typeof (window.oncyclechanged) == "function") { window.oncyclechanged(_evt) }
+            }
+            else {
+				//
+				var oRPCGetSqlMembers = new window.server(this.URL, "GetSqlMembers");
+				oRPCGetSqlMembers.call(_evt.nextCycle.id);
+				if (XMLRecord("returnCode") == Macro_VAR.ErrorCode)
+				{ throw new Error(0, XMLRecord("GetSqlMembers")); }
+
+				var sSqlMembers = "";
+				if (XMLRecord("GetSqlMembers") != "") {
+					var sSqlExpression;
+					var oRecord;
+					var oDelimiterArray = new Array();
+					oDelimiterArray[0] = "@||||@";
+					var oArray1 = XMLRecord("GetSqlMembers").split(oDelimiterArray[0]);
+					var oArray2;
+					for (var i = 0; i < oArray1.length; i++) {
+						oArray2 = oArray1[i].split(",");
+						if (oArray2[0] == "true") {
+							sSqlExpression = eval(oArray2[1]);
+							oRecord = new window.recordset(sSqlExpression);
+							oRecord.open();
+							if (sSqlMembers == "") {
+								sSqlMembers = oRecord.item(0, "returnValue");
+							}
+							else {
+								sSqlMembers += "," + oRecord.item(0, "returnValue");
+							}
+						}
+						else {
+							if (sSqlMembers == "") {
+								sSqlMembers = oArray2[1];
+							}
+							else {
+								sSqlMembers += "," + oArray2[1];
+							}
+						}
+					}
+				}
+
+				var oRPCMoveOn = new window.server(this.URL, "MoveOn");
+				oRPCMoveOn.call(Macro_VAR.LoginUserId, Macro_VAR.AgentUserID, this.entity.id, this.entity.getProperty("autoinc"), sInstanceRunningId, sOperation, _evt.nextCycle.id, sComments, sSqlMembers, "0");
+				if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("MoveOn")) } 
+				_evt.nextCycle.workflowStatus = XMLRecord("MoveOn"); 
+				if (typeof (window.oncyclechanged) == "function") { window.oncyclechanged(_evt) } 
+	            
+				var sMessageTemplate = ""; var sMessage = ""; var oMessageTemplate = null; 
+				oMessageTemplate = new window.server(this.URL, "GetMessageTemplate"); 
+				oMessageTemplate.call(this.entity.id, sOperation); 
+				if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("GetMessageTemplate")) } 
+				sMessageTemplate = XMLRecord("GetMessageTemplate"); 
+				switch (sOperation) 
+				{ case cWORKFLOW_SUBMIT: sMessageTemplate[1] = eval(sMessageTemplate[1]); break; 
+				case cWORKFLOW_SIGN: case cWORKFLOW_PASS: case cWORKFLOW_REJECT: 
+				sMessageTemplate[1] = eval(sMessageTemplate[1]); 
+				sMessageTemplate[3] = eval(sMessageTemplate[3]); 
+				sMessageTemplate[5] = eval(sMessageTemplate[5]); break }
+				var oRPCMessage = new window.server(this.URL, "SendMessage");
+				oRPCMessage.call(Macro_VAR.LanguageCode, Macro_VAR.LoginUserId, this.entity.id, this.entity.name, this.entity.getProperty("autoinc"), _evt.startCycle.id, _evt.nextCycle.id, sOperation, sMessageTemplate, sSqlMembers); 
+				if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("SendMessage"));}
+				//
+			}
+            return Macro_VAR.SuccessCode
+        } catch (e) { window.alert("workflow moveon Error:" + e.message); return Macro_VAR.ErrorCode }
+    },
+    submit: function() { try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } if (this.entity.getAttribute("selectedRowStatus") == "0") { window.alert(window.sWfl_ErrMsg[3]); return } if (this.entity.getAttribute("isDataChanged") == true) { window.alert(window.sWfl_ErrMsg[3]); return } var f = cWORKFLOW_SUBMIT; var a = ""; var c = ""; if (arguments.length < 2) { throw new Error(0, sWfl_ErrMsg[0]) } a = arguments[0]; c = arguments[1]; var d = this.moveon(a, f, c); if (d == Macro_VAR.SuccessCode) { this.show() } return d } catch (b) { window.alert("workflow submit Error:" + b.message); return Macro_VAR.ErrorCode } },
+    signfor:
+    function() {
+        try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } var d = cWORKFLOW_SIGN; var a = ""; if (arguments.length <= 0) { throw new Error(0, sWfl_ErrMsg[0]) } a = arguments[0]; var c = new window.server(this.URL, "SignFor"); c.call(Macro_VAR.LoginUserId, Macro_VAR.AgentUserID, this.entity.id, this.entity.getProperty("autoinc"), a, d); if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("SignFor")) } this.show(); return Macro_VAR.SuccessCode } catch (b) { window.alert("workflow signfor Error:" + b.message); return Macro_VAR.ErrorCode }
+    }, pass: function() { try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } if (this.entity.getAttribute("selectedRowStatus") == "0") { window.alert(window.sWfl_ErrMsg[3]); return } if (this.entity.getAttribute("isDataChanged") == true) { window.alert(window.sWfl_ErrMsg[3]); return } var f = cWORKFLOW_PASS; var a = ""; var c = ""; if (arguments.length < 2) { throw new Error(0, sWfl_ErrMsg[0]) } a = arguments[0]; c = arguments[1]; var d = this.moveon(a, f, c); if (d == Macro_VAR.SuccessCode) { this.show() } return d } catch (b) { window.alert("workflow pass Error:" + b.message); return Macro_VAR.ErrorCode } }, reject: function() { try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } if (this.entity.getAttribute("selectedRowStatus") == "0") { window.alert(window.sWfl_ErrMsg[3]); return } if (this.entity.getAttribute("isDataChanged") == true) { window.alert(window.sWfl_ErrMsg[3]); return } var f = cWORKFLOW_REJECT; var a = ""; var c = ""; if (arguments.length < 2) { throw new Error(0, sWfl_ErrMsg[0]) } a = arguments[0]; c = arguments[1]; var d = this.moveon(a, f, c); if (d == Macro_VAR.SuccessCode) { this.show() } return d } catch (b) { window.alert("workflow reject Error:" + b.message); return Macro_VAR.ErrorCode } }, revise: function() { try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } if (this.entity.getAttribute("selectedRowStatus") == "0") { window.alert(window.sWfl_ErrMsg[3]); return } if (this.entity.getAttribute("isDataChanged") == true) { window.alert(window.sWfl_ErrMsg[3]); return } var g = ""; var c = ""; var b = true; var a = null; if (arguments.length < 1) { throw new Error(0, sWfl_ErrMsg[0]) } c = arguments[0]; g = cWORKFLOW_REVISE; a = document.createEventObject(); a.startCycle = this.getStartCycle(); if (a.startCycle == null) { return Macro_VAR.ErrorCode } a.operation = g; a.nextCycle = null; if (typeof (window.oncyclechange) == "function") { b = window.oncyclechange(a) } if (b == false) { return } a.nextCycle = this.getCycle(cWORKFLOW_START_CYCLEID); if (a.nextCycle == null) { return Macro_VAR.ErrorCode } var d = new window.server(this.URL, "Revise"); d.call(Macro_VAR.LoginUserId, this.entity.id, this.entity.getProperty("autoinc"), g, c); if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("Revise")) } a.nextCycle.workflowStatus = XMLRecord("Revise"); if (typeof (window.oncyclechanged) == "function") { window.oncyclechanged(a) } this.show(); return Macro_VAR.SuccessCode } catch (f) { window.alert("workflow revise Error:" + f.message); return Macro_VAR.ErrorCode } }, clear: function() { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } var a = null; a = document.getElementById(cWORKFLOW_PANEL_ID); if (a == null) { return } a.innerHTML = "" }, show: function() { try { if (this.entity.enableWorkflow != "1") { throw new Error(0, window.sWfl_ErrMsg[2]) } var f = null; f = document.getElementById(cWORKFLOW_PANEL_ID); if (f == null) { return } var c = new window.server(this.URL, "ShowWorkflow"); var b = this.entity.getProperty("workflow_status"); if (arguments.length > 0) { c.call(Macro_VAR.LoginUserId, this.entity.id, arguments[0], b) } else { var a = this.entity.getProperty("autoinc"); if (a == null || a == "") { return } c.call(Macro_VAR.LoginUserId, this.entity.id, a, b) } if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("ShowWorkflow")) } f.innerHTML = XMLRecord("ShowWorkflow") } catch (d) { f.innerHTML = "workflow show Error:" + d.message } }, returnto: function() { },
+    getCycle: function() {
+        try {
+            var c = ""; var a = null; if (arguments.length < 1) { throw new Error(0, sWfl_ErrMsg[0]) } c = arguments[0]; var b = new window.server(this.URL, "GetCycle"); b.call(this.entity.id, this.entity.getProperty("autoinc"), c); if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("GetCycle")) } var d = new Array(); d = XMLRecord("GetCycle").split(Macro_VAR.Sys_Delimiter);
+            var a = new cycle(); a.id = d[0]; a.sort = d[1]; a.name = d[2]; a.membernames = d[3]; a.workflowStatus = d[4]; a.clientid = d[5]; return a
+        } catch (f) { window.alert("workflow getStartCycle Error:" + f.message); return null }
+    },
+    getStartCycle: function() {
+        try {
+            var a = null; var b = new window.server(this.URL, "GetStartCycle"); b.call(this.entity.id, this.entity.getProperty("autoinc")); if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("GetStartCycle")) } var c = new Array(); c = XMLRecord("GetStartCycle").split(Macro_VAR.Sys_Delimiter); var a = new cycle(); a.id = c[0]; a.sort = c[1]; a.name = c[2]; a.membernames = c[3];
+            a.workflowStatus = c[4]; a.clientid = c[5]; return a
+        } catch (d) { window.alert("workflow getStartCycle Error:" + d.message); return null }
+    },
+    getNextCycle: function() {
+        try {
+            var sInstanceRunningId = ""; var sStartCycleId = ""; var sOperation = ""; var oCycle = null; 
+            if (arguments.length < 3) { throw new Error(0, sWfl_ErrMsg[0]) } 
+            sStartCycleId = arguments[0].id; sInstanceRunningId = arguments[1]; sOperation = arguments[2];
+            var oRPCGetRouter = new window.server(this.URL, "GetRouter"); oRPCGetRouter.call(this.entity.id, sStartCycleId, sOperation); 
+            window.alert(this.entity.id + "," + sStartCycleId + "," + sOperation);
+            if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("GetRouter")) } if (XMLRecord("GetRouter") == "") { throw new Error(0, sWfl_ErrMsg[1]) } 
+            var oCycle = new cycle(); var oArray1 = null; var oArray2 = null; var oDelimiterArray = new Array(); oDelimiterArray[0] = "@||||@"; oDelimiterArray[1] = "@|||||@"; var i = 0; var j = 0; oArray1 = XMLRecord("GetRouter").split(Macro_VAR.Sys_Delimiter); 
+            for (i = 0; i < oArray1.length; i++) {
+                oArray2 = oArray1[i].split(oDelimiterArray[0]); var oArray = null; oArray = oArray2[0].split(oDelimiterArray[1]);
+                oCycle.id = oArray[0];
+                oCycle.sort = oArray[1];
+                oCycle.name = oArray[2];
+                oCycle.membernames = oArray[3];
+                oCycle.clientid = oArray[4];
+                var oRPCGetCondition = new window.server(this.URL, "GetCondition"); oRPCGetCondition.call(oArray2[1]); if (XMLRecord("returnCode") == Macro_VAR.ErrorCode) { throw new Error(0, XMLRecord("GetCondition")) } 
+                if (XMLRecord("GetCondition") == "") 
+                { 
+					// 判断规则
+                    if (sOperation != "submit") {
+                        var oRPCDetermineRule = new window.server(this.URL, "DetermineRule");
+                        oRPCDetermineRule.call(sInstanceRunningId,oArray2[1], sOperation);
+                        if (XMLRecord("returnCode") == Macro_VAR.ErrorCode)
+                        { throw new Error(0, XMLRecord("DetermineRule")); }
+                        if (XMLRecord("DetermineRule") == "1")
+                            return oCycle;
+                        else
+                        { arguments[0].isWait = true; return arguments[0]; }
+                    }
+                    else
+                        return oCycle;
+				} 
+                var sExpression = ""; var bExpressionValue = false; var sDataType = ""; var oArray3 = null; var oArray4 = null; oArray3 = XMLRecord("GetCondition").split(oDelimiterArray[1]);
+                oArray4 = oArray3[0].split(oDelimiterArray[0]);
+                sDataType = window.translateSqlDataType(oArray4[1]);
+                var sLeftValue, sRightValue;
+                var sIsSql, sSqlExpression, sDataValueType;
+                sIsSql = oArray4[7]; sSqlExpression = oArray4[8]; sDataValueType = oArray4[9];
+                if (sIsSql == "true") {
+                    sDataType = "string";
+                    sSqlExpression = eval(sSqlExpression);
+                    var oRecord = new window.recordset(sSqlExpression);
+                    oRecord.open();
+                    sLeftValue = "'" + oRecord.item(0, "returnValue") + "'";
+                }
+                else {
+                    sLeftValue = "(this.entity.getProperty('" + oArray4[0] + "'))";
+                }
+                if (sDataValueType == "0") {
+                    sRightValue = oArray4[3];
+                }
+                else {
+                    sRightValue = eval("this.entity.getProperty('" + oArray4[3] + "')");
+                }
+                if (sDataType == "string" || sDataType == "datetime") {
+                    switch (oArray4[2]) {
+                        case "like":
+                            sExpression = oArray4[5] + sLeftValue + ".indexOf" + "('" + sRightValue + "')>=0" + oArray4[6] + oArray4[4];
+                            break;
+                        case "not like":
+                            sExpression = oArray4[5] + sLeftValue + ".indexOf" + "('" + sRightValue + "')<0" + oArray4[6] + oArray4[4];
+                            break;
+                        default:
+                            sExpression = oArray4[5] + sLeftValue + oArray4[2] + "'" + sRightValue + "'" + oArray4[6] + oArray4[4];
+                            break;
+                    }
+                }
+                else {
+                    if (sDataType == "bool") {
+                        var bValue = eval(sLeftValue).toLowerCase();
+                        bValue = (bValue != "false" && bValue != "0" && bValue != "") ? "1" : "0";
+                        sExpression = oArray4[5] + bValue + oArray4[2] + sRightValue + oArray4[6] + oArray4[4];
+                    } else sExpression = oArray4[5] + sLeftValue + oArray4[2] + sRightValue + oArray4[6] + oArray4[4] ;
+                }
+                for (j = 1; j < oArray3.length; j++) {
+                    oArray4 = oArray3[j].split(oDelimiterArray[0]);
+                    sDataType = window.translateSqlDataType(oArray4[1]);
+                    sIsSql = oArray4[7]; sSqlExpression = oArray4[8]; sDataValueType = oArray4[9];
+                    if (sIsSql == "true") {
+                        sDataType = "string";
+                        sSqlExpression = eval(sSqlExpression);
+                        var oRecord = new window.recordset(sSqlExpression);
+                        oRecord.open();
+                        sLeftValue = "'" + oRecord.item(0, "returnValue") + "'";
+                    }
+                    else {
+                        sLeftValue = "(this.entity.getProperty('" + oArray4[0] + "'))";
+                    }
+                    if (sDataValueType == "0") {
+                        sRightValue = oArray4[3];
+                    }
+                    else {
+                        sRightValue = eval("this.entity.getProperty('" + oArray4[3] + "')");
+                    }
+                    if (sDataType == "string" || sDataType == "datetime") {
+                        switch (oArray4[2]) {
+                            case "like":
+                                sExpression = sExpression + " " + oArray4[5] + sLeftValue + ".indexOf" + "('" + sRightValue + "')>=0" + oArray4[6] + oArray4[4];
+                                break;
+                            case "not like":
+                                sExpression = sExpression + " " + oArray4[5] + sLeftValue + ".indexOf" + "('" + sRightValue + "')<0" + oArray4[6] + oArray4[4];
+                                break;
+                            default:
+                                sExpression = sExpression + " " + oArray4[5] + sLeftValue + oArray4[2] + "'" + sRightValue + "'" + oArray4[6] + oArray4[4];
+                                break;
+                        }
+                    }
+                    else {
+                        if (sDataType == "bool") {
+                            var bValue = eval(sLeftValue).toLowerCase();
+                            bValue = (bValue != "false" && bValue != "0" && bValue != "") ? "1" : "0";
+                            sExpression = sExpression + " " + oArray4[5] + bValue + oArray4[2] + sRightValue + oArray4[6] + oArray4[4];
+                        }
+                        else
+                            sExpression = sExpression + " " + oArray4[5] + sLeftValue + oArray4[2] + sRightValue + oArray4[6] + oArray4[4];
+                    }
+                }
+                bExpressionValue = eval(sExpression);
+                if (bExpressionValue == true) 
+                { 
+					// 判断规则
+                    if (sOperation != "submit") {
+                        var oRPCDetermineRule = new window.server(this.URL, "DetermineRule");
+                        oRPCDetermineRule.call(sInstanceRunningId,oArray2[1], sOperation);
+                        if (XMLRecord("returnCode") == Macro_VAR.ErrorCode)
+                        { throw new Error(0, XMLRecord("DetermineRule")); }
+                        if (XMLRecord("DetermineRule") == "1")
+                            return oCycle;
+                        else
+                        { arguments[0].isWait = true; return arguments[0]; }
+                    }
+                    else
+                        return oCycle;
+                }
+            } throw new Error(0, sWfl_ErrMsg[1])
+        } catch (e) { window.alert("workflow getNextCycle Error:" + e.message); return null }
+    }
+};
+										
+function cycle(){}
+cycle.prototype={id:"",sort:"",name:"",membernames:"",workflowStatus:"",clientid:"",isWait:false,getMembers:function(){}};
+function member(){}
+member.prototype={membername:"",memberid:"",cansign:"",canpass:"",canreject:"",canreturn:""};function condition(){}condition.prototype={datafield:"",relation:"",datavalue:"",booloperator:""};

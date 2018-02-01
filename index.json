@@ -1,0 +1,226 @@
+﻿{
+    "by_field": "",
+    "has_first_day": true,
+    "rows": [
+        {
+            "value":1,
+            "cells": [
+                {
+                    "time":"2018-01-1",
+                    "quantity": 2000,
+                    "price":12.5
+                },
+                {
+                    "time":"2018-01-5",
+                    "quantity": 1245,
+                    "price":11.5
+                },
+                {
+                    "time":"2018-01-10",
+                    "quantity": 2115,
+                    "price":11.5
+                },
+                {
+                    "time":"2018-01-15",
+                    "quantity": 2100,
+                    "price":12.0
+                },
+                {
+                    "time":"2018-01-20",
+                    "quantity": 1584,
+                    "price":12.8
+                }
+            ]
+        },
+        {
+            "by_value": "商品2",
+            "value":2,
+            "cells": [
+                {
+                    "time":"2018-01-1",
+                    "quantity": 1800,
+                    "price":12.8
+                },
+                {
+                    "time":"2018-01-5",
+                    "quantity": 1745,
+                    "price":12.8
+                },
+                {
+                    "time":"2018-01-10",
+                    "quantity": 1915,
+                    "price":12.8
+                },
+                {
+                    "time":"2018-01-15",
+                    "quantity": 1500,
+                    "price":12.8
+                },
+                {
+                    "time":"2018-01-20",
+                    "quantity": 1514,
+                    "price":12.8
+                }
+            ]
+        },
+        {
+            "by_value": "商品3",
+            "value":3,
+            "cells": [
+                {
+                    "time":"2018-01-1",
+                    "quantity": 1100,
+                    "price":32.8
+                },
+                {
+                    "time":"2018-01-5",
+                    "quantity": 1245,
+                    "price":34.8
+                },
+                {
+                    "time":"2018-01-10",
+                    "quantity": 800,
+                    "price":35.6
+                },
+                {
+                    "time":"2018-01-15",
+                    "quantity": 950,
+                    "price":37.1
+                },
+                {
+                    "time":"2018-01-20",
+                    "quantity": 1084,
+                    "price":38.0
+                }
+            ]
+        },
+        {
+            "by_value": "商品4",
+            "value":4,
+            "cells": [
+                {
+                    "time":"2018-01-1",
+                    "quantity": 233,
+                    "price":328
+                },
+                {
+                    "time":"2018-01-5",
+                    "quantity": 123,
+                    "price":357
+                },
+                {
+                    "time":"2018-01-10",
+                    "quantity": 231,
+                    "price":326
+                },
+                {
+                    "time":"2018-01-15",
+                    "quantity": 321,
+                    "price":321
+                },
+                {
+                    "time":"2018-01-20",
+                    "quantity": 312,
+                    "price":328
+                }
+            ]
+        },
+        {
+            "by_value": "商品5",
+            "value":5,
+            "cells": [
+                {
+                    "time":"2018-01-1",
+                    "quantity": 12,
+                    "price":3888
+                },
+                {
+                    "time":"2018-01-5",
+                    "quantity": 43,
+                    "price":3888
+                },
+                {
+                    "time":"2018-01-10",
+                    "quantity": 44,
+                    "price":3888
+                },
+                {
+                    "time":"2018-01-15",
+                    "quantity": 43,
+                    "price":3888
+                },
+                {
+                    "time":"2018-01-20",
+                    "quantity": 54,
+                    "price":3888
+                }
+            ]
+        },
+        {
+            "by_value": "商品6",
+            "value":6,
+            "cells": [
+                {
+                    "time":"2018-01-1",
+                    "quantity": 111,
+                    "price":348
+                },
+                {
+                    "time":"2018-01-5",
+                    "quantity": 222,
+                    "price":318
+                },
+                {
+                    "time":"2018-01-10",
+                    "quantity": 333,
+                    "price":324
+                },
+                {
+                    "time":"2018-01-15",
+                    "quantity": 221,
+                    "price":344
+                },
+                {
+                    "time":"2018-01-20",
+                    "quantity": 143,
+                    "price":324
+                }
+            ]
+        },
+        {
+            "by_value": "商品7",
+            "value":7,
+            "cells": [
+                {
+                    "time":"2018-01-1",
+                    "quantity": 231,
+                    "price":231
+                },
+                {
+                    "time":"2018-01-5",
+                    "quantity": 131,
+                    "price":131
+                },
+                {
+                    "time":"2018-01-10",
+                    "quantity": 322,
+                    "price":322
+                },
+                {
+                    "time":"2018-01-15",
+                    "quantity": 433,
+                    "price":433
+                },
+                {
+                    "time":"2018-01-20",
+                    "quantity": 531,
+                    "price":531
+                }
+            ]
+        }
+    ],
+    "report_update_time": "2017-06-14 21:27:04.161",
+    "data_update_time": "2017-06-14 21:26:19.000",
+    "data_sufficient_update_time": "2017-06-14 21:26:19.000",
+    "truncated": false
+}
