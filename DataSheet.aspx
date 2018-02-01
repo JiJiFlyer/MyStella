@@ -38,11 +38,20 @@
     </style>
 </head>
 <body>
+    
+    <table id="accountage_custom" border="1">
+        <caption>自定义账龄提醒表</caption>
+        <tr>
+            <th>客户</th>
+            <th>余额方向</th>
+            <th>余额</th>
+            <th>
     <select id="select">
         <%=IntervalSelect %>
-    </select>
-    <table id="accountage_custom" border="1">
+    </select></th></tr>
+        <tbody id="customdata"></tbody>
     </table>
+
     <script type="text/javascript">
         $(function () {
             $('#select').on('change', function () {
@@ -60,7 +69,7 @@
                     num: num
                 },
                 success: function (data) {
-                    $("#accountage_custom").html(data);
+                    $("#customdata").html(data);
                 },
                 error: function () {
                     alert("出错了！请稍候再试！");
@@ -68,6 +77,9 @@
             });
         }
     </script>
+    <br />
+    <br />
+    <br />
     <table id="accountage" border="1">
         <caption>账龄表</caption>
         <tr>

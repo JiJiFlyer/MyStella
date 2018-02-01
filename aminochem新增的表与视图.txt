@@ -6,7 +6,7 @@ bas_agesectionset
 例：表中t0:aa；t1:bb；t2:cc ——>1-aa天，（aa+1）-bb天，（bb+1）-cc天，（cc+1）天及以上
 
 bas_custominteval 
-自定义账龄区间设置的表，已经有用户设置的多个begin和end 然后做下拉列表一次显示一个区间统计。
+自定义账龄区间设置的表，已经有用户设置的多个begin和end 然后做下拉列表一次显示一个区间统计。begin不能为空。
 例：表中begin:10；end:15 ——> 大于等于10，小于等于15（10-15天）；
 	begin：10；end：null ——> 大于等于10（10天及以上）。
 视图：

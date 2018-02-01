@@ -40,18 +40,17 @@ Public Class IntervalSelect
         '定义返回的html代码字符串
         '标签行填写：
         Dim customtable As New StringBuilder()
-        customtable.Append("<caption>自定义账龄提醒表</caption>
-        <tr>
-            <th>客户</th>
-            <th>余额方向</th>
-            <th>余额</th>")
-        If Intervalend(num) = 0 Then
-            customtable.Append("<th>" & Intervalbegin(num) & "天及以上</th>")
-        Else
-            customtable.Append("<th>" & Intervalbegin(num) & "-" & Intervalend(num) & "天</th>")
-        End If
-        customtable.Append("</tr>")
-        Dim precus As String = customtable.ToString()
+        'customtable.Append("<caption>自定义账龄提醒表</caption>
+        '<tr>
+        '    <th>客户</th>
+        '    <th>余额方向</th>
+        '    <th>余额</th>")
+        'If Intervalend(num) = 0 Then
+        '    customtable.Append("<th>" & Intervalbegin(num) & "天及以上</th>")
+        'Else
+        '    customtable.Append("<th>" & Intervalbegin(num) & "-" & Intervalend(num) & "天</th>")
+        'End If
+        'customtable.Append("</tr>")
 
         '数据处理计算及填写：
         '提醒表区间总额定义
@@ -123,9 +122,9 @@ Public Class IntervalSelect
         End If
         drDB.Close()
         '若此时custom与填数据前无变化，显示无账龄信息
-        If customtable.ToString() = precus Then
+        If customtable.ToString() = "" Then
             customtable.Clear()
-            customtable.Append("<th>当前自定义区间内无账龄信息</th>")
+            customtable.Append("<td colspan=""4"">当前自定义区间内无账龄信息</td>")
         End If
         Return customtable
     End Function
