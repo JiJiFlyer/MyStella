@@ -63,7 +63,7 @@
             '账龄数据寄存
             Dim StringHolder2 As String
             '第一个查询：初始化pre_clientname为表中第一位客户
-            sSql = "select top 1 clientname from dbo.echart_accountage order by clientname,billdate desc"
+            sSql = "select top 1 clientname from dbo.echart_accountage where bal_fx = '借方' order by sell_type,t_bal desc,clientname desc,billdate desc"
             drDB = db.GetDataReader(sSql)
             drDB.Read()
             pre_clientname = drDB.Item("clientname")
@@ -71,7 +71,7 @@
             '第二个查询：先判断是否是同一客户
             '再判断a_bal是否是超过t_bal并做调整
             '最后判断经过调整的a_bal处于哪一账龄区间，加至相应的agetotal
-            sSql = "select * from dbo.echart_accountage order by clientname,billdate desc"
+            sSql = "select * from dbo.echart_accountage where bal_fx = '借方' order by sell_type,t_bal desc,clientname desc,billdate desc"
             drDB = db.GetDataReader(sSql)
             While drDB.Read
                 '判断是否为新客户
@@ -95,8 +95,8 @@
                     a_bal = drDB.Item("t_bal") - pre_t_bal
                     pre_t_bal = pre_t_bal + a_bal
                 End If
-                '始终更新前三列,存入用于寄存的string变量
-                StringHolder1 = "<tr><td>" & drDB.Item("clientname") & "</td><td>" & Format(drDB.Item("bal_fx")) & "</td><td>" & Format(drDB.Item("t_bal"), "0.00") & "</td>"
+                '始终更新前四列,存入用于寄存的string变量
+                StringHolder1 = "<tr><td>" & drDB.Item("clientname") & "</td><td>" & drDB.Item("sell_type") & "</td><td>" & Format(drDB.Item("bal_fx")) & "</td><td>" & Format(drDB.Item("t_bal"), "0.00") & "</td>"
                 '这个判断用于统计不同区间各自的总金额。先select用户设置的区间个数，根据区间的个数进行分支（简单粗暴）
                 Select Case agenumber
                     Case 1

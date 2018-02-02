@@ -84,6 +84,7 @@
         <caption>账龄表</caption>
         <tr>
             <th>客户</th>
+            <th>类型</th>
             <th>余额方向</th>
             <th>余额</th>
             <%=AgeLabel%>

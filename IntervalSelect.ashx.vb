@@ -66,7 +66,7 @@ Public Class IntervalSelect
         '提醒表数据寄存
         Dim StringHolder_R As String
         '第一个查询：初始化pre_clientname为表中第一位客户
-        sSql = "select top 1 clientname from dbo.echart_accountage order by clientname,billdate desc"
+        sSql = "select top 1 clientname from dbo.echart_accountage where bal_fx = '借方' order by sell_type,t_bal desc,clientname desc,billdate desc"
         db = New DB
         drDB = db.GetDataReader(sSql)
         drDB.Read()
@@ -75,7 +75,7 @@ Public Class IntervalSelect
         '第二个查询：先判断是否是同一客户
         '再判断a_bal是否是超过t_bal并做调整
         '最后判断经过调整的a_bal处于哪一账龄区间，加至相应的agetotal
-        sSql = "select * from dbo.echart_accountage order by clientname,billdate desc"
+        sSql = "select * from dbo.echart_accountage where bal_fx = '借方' order by sell_type,t_bal desc,clientname desc,billdate desc"
         db = New DB
         drDB = db.GetDataReader(sSql)
         While drDB.Read
