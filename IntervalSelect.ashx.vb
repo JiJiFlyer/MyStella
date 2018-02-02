@@ -101,7 +101,7 @@ Public Class IntervalSelect
                 pre_t_bal = pre_t_bal + a_bal
             End If
             '始终更新前三列,存入用于寄存的string变量
-            StringHolder1 = "<tr><td>" & drDB.Item("clientname") & "</td><td>" & drDB.Item("bal_fx") & "</td><td>" & drDB.Item("t_bal") & "</td>"
+            StringHolder1 = "<tr><td>" & drDB.Item("clientname") & "</td><td>" & drDB.Item("bal_fx") & "</td><td>" & Format(drDB.Item("t_bal"), "0.00") & "</td>"
             If Intervalend(num) = 0 Then
                 If drDB.Item("a_age") >= Intervalbegin(num) Then
                     agetotal_r = agetotal_r + a_bal
@@ -111,7 +111,7 @@ Public Class IntervalSelect
                     agetotal_r = agetotal_r + a_bal
                 End If
             End If
-            StringHolder_R = "<td>" & agetotal_r & "</td></tr>"
+            StringHolder_R = "<td>" & Format(agetotal_r, "0.00") & "</td></tr>"
             '更新pre_clientname
             pre_clientname = drDB.Item("clientname")
         End While
