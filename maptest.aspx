@@ -28,6 +28,7 @@
 		<input type="button" value="获取绘制的标记个数" onclick="alert(overlays.length)"/>
 		<input type="button" value="清除全部自定义标记" onclick="clearAll()"/>
         <input type="button" value="撤销" onclick="clearLast()"/>
+        <input type="button" value="显示" onclick="alert(ccc.getBounds())"/>
 	</div>
     <script type="text/javascript">
         // 百度地图API功能
@@ -43,31 +44,33 @@
             return 'tiles/' + zoom + '/tile' + x + '_' + y + '.png';  //根据当前坐标，选取合适的瓦片图
         }
         map.addTileLayer(tileLayer);
-        var marker1 = new BMap.Marker(point);  // 创建标注
+       /* var marker1 = new BMap.Marker(point);  // 创建标注
         var marker2 = new BMap.Marker(new BMap.Point(121.679261, 29.990284));  // 创建标注
         var marker3 = new BMap.Marker(new BMap.Point(121.651261, 29.999455));  // 创建标注        
         map.addOverlay(marker1);
         map.addOverlay(marker2);
         map.addOverlay(marker3);        // 将标注添加到地图中
-        var markers = [];
-        markers.push(marker1);
-        markers.push(marker2);
-        markers.push(marker3);
-        /*markers.addEventListener("click", getAttr);
-        function getAttr() {
-            var p = marker.getPosition();       //获取marker的位置
-            alert("marker的位置是" + p.lng + "," + p.lat);
-        }
-        
-        var markerClusterer = new BMapLib.MarkerClusterer(map, { markers: markers });*/
+        var ccc = new BMap.Circle(point, 100);
+        map.addOverlay(ccc);
+                */
         var overlays = [];
         var overlaycomplete = function (e) {
             overlays.push(e.overlay);
         };
+        
+        function centerPoint(e) {
+            var cp = new BMap.Point(e.point.lng,e.point.lat);
+            var radius = prompt("请输入区域半径");
+            var c1 = new BMap.Circle(cp, radius, styleOptions)
+            overlays.push(c1);
+            map.addOverlay(overlays[overlays.length - 1]);
+        }
+        map.addEventListener("click", centerPoint);
+
         var styleOptions = {
             strokeColor: "red",    //边线颜色。
             fillColor: "red",      //填充颜色。当参数为空时，圆形将没有填充效果。
-            strokeWeight: 3,       //边线的宽度，以像素为单位。
+            strokeWeight: 1,       //边线的宽度，以像素为单位。
             strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
             fillOpacity: 0.3,      //填充的透明度，取值范围0 - 1。
             strokeStyle: 'solid' //边线的样式，solid或dashed。
