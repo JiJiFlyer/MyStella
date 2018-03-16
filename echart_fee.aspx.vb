@@ -19,6 +19,11 @@
     Public BdataML As New StringBuilder()
     Public LdataML As New StringBuilder()
     Public LmarkML As New StringBuilder()
+    Public feePiedata As New StringBuilder()
+    Public BdataHelp As New StringBuilder()
+    Public BdataTotal As New StringBuilder()
+    Public LdataTotal As New StringBuilder()
+    Public LmarkTotal As New StringBuilder()
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim db As DB
@@ -30,14 +35,15 @@
             Dim i As Integer
             Dim fee_6001(13) As Double
             Dim fee_6051(13) As Double
+            Dim fee_6401(13) As Double
             Dim month As Integer = Format(Now(), "MM")
             For i = 1 To month
                 flDate.Append("""" & i.ToString() & "月"",")
             Next i
             flDate.Append("]")
 
-            '以月份作控制变量循环 存fee数组用于计算费率
-            '6001
+            '以月份作控制变量循环 存fee数组用于计算
+            '6001 主营业务收入
             For i = 1 To month
                 sSql = "select isnull(sum(df_bala),0) as fee from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
                         where itemno like '6001%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
@@ -47,13 +53,23 @@
                 drDB.Close()
             Next i
 
-            '6051
+            '6051 其他业务收入
             For i = 1 To month
                 sSql = "select isnull(sum(df_bala),0) as fee from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
                         where itemno like '6051%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
                 drDB = db.GetDataReader(sSql)
                 drDB.Read()
                 fee_6051(i) = drDB.Item("fee")
+                drDB.Close()
+            Next i
+
+            '6401 主营业务成本
+            For i = 1 To month
+                sSql = "select isnull(sum(jf_bala),0) as fee from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
+                        where itemno like '6401%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
+                drDB = db.GetDataReader(sSql)
+                drDB.Read()
+                fee_6401(i) = drDB.Item("fee")
                 drDB.Close()
             Next i
 
@@ -146,13 +162,8 @@
             BdataML.Append("[")
             LdataML.Append("[")
             For i = 1 To month
-                sSql = "select isnull(sum(jf_bala),0) as ml from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
-                        where itemno like '6401%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
-                drDB = db.GetDataReader(sSql)
-                drDB.Read()
-                fee_ml(i) = fee_6001(i) - drDB.Item("ml")
+                fee_ml(i) = fee_6001(i) - fee_6401(i)
                 BdataML.Append("" & Format(fee_ml(i), "#.##") & ",")
-                drDB.Close()
                 '毛利率
                 mll = fee_ml(i) / fee_6001(i) * 100
                 LdataML.Append("" & Format(mll, "#.##") & ",")
@@ -161,6 +172,44 @@
             BdataML.Append("]")
             LdataML.Append("]")
 
+            '计算三种费用累计值
+            Dim fee6601_total As Double = 0
+            Dim fee6602_total As Double = 0
+            Dim fee6603_total As Double = 0
+            Dim fee6001_total As Double = 0
+            Dim fee6051_total As Double = 0
+            Dim fee6401_total As Double = 0
+            Dim qjfy_total As Double
+            '截止某月，替换month即可
+            For i = 1 To month
+                fee6601_total = fee6601_total + fee_6601(i)
+                fee6602_total = fee6602_total + fee_6602(i)
+                fee6603_total = fee6603_total + fee_6603(i)
+                fee6001_total = fee6001_total + fee_6001(i)
+                fee6051_total = fee6051_total + fee_6051(i)
+                fee6401_total = fee6401_total + fee_6401(i)
+            Next i
+            '饼图数据输入
+            feePiedata.Append("{value:" & Format(fee6601_total, "#.##") & ", name:'销售费用'},
+                {value:" & Format(fee6602_total, "#.##") & ", name:'管理费用'},
+                {value:" & Format(fee6603_total, "#.##") & ", name:'财务费用'}")
+            '累计柱状折现图计算及数据输入
+            qjfy_total = fee6601_total + fee6602_total + fee6603_total
+            Dim xsfl_t As Double = fee6601_total / (fee6001_total + fee6051_total) * 100
+            Dim glfl_t As Double = fee6602_total / (fee6001_total + fee6051_total) * 100
+            Dim cwfl_t As Double = fee6603_total / (fee6001_total + fee6051_total) * 100
+            Dim qjfl_t As Double = qjfy_total / (fee6001_total + fee6051_total) * 100
+            Dim mll_t As Double = (fee6001_total - fee6401_total) / fee6001_total * 100
+            BdataTotal.Append("" & Format(fee6601_total, "#.##") & "," & Format(fee6602_total, "#.##") & "," & Format(fee6603_total, "#.##") & ",
+" & Format(qjfy_total, "#.##") & "," & Format(fee6001_total, "#.##") & ",")
+            BdataHelp.Append("0," & Format(fee6601_total, "#.##") & "," & Format(fee6601_total + fee6602_total, "#.##") & ",0,0,")
+            LdataTotal.Append("" & Format(xsfl_t, "#.##") & "," & Format(glfl_t, "#.##") & "," & Format(cwfl_t, "#.##") & ",
+" & Format(qjfl_t, "#.##") & "," & Format(mll_t, "#.##") & ",")
+            LmarkTotal.Append("{value : " & Format(xsfl_t, "#.##") & ", xAxis: 0, yAxis: " & Format(xsfl_t, "#.##") & "},
+{value : " & Format(glfl_t, "#.##") & ", xAxis: 1, yAxis: " & Format(glfl_t, "#.##") & "},
+{value : " & Format(cwfl_t, "#.##") & ", xAxis: 2, yAxis: " & Format(cwfl_t, "#.##") & "},
+{value : " & Format(qjfl_t, "#.##") & ", xAxis: 3, yAxis: " & Format(qjfl_t, "#.##") & "},
+{value : " & Format(mll_t, "#.##") & ", xAxis: 4, yAxis: " & Format(mll_t, "#.##") & "},")
         Catch ex As Exception
             DB.Close(db, drDB)
             errorshow1 = ex.Message
