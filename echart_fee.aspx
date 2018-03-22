@@ -13,57 +13,73 @@
     <script src="echars/echarts.js" charset='utf-8'></script>
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script src="echars/macarons.js"></script>
-    <script src="echars/darks.js"></script>
+    <script src="echars/fee_tax.js"></script>
     <script src="echars/vintage.js"></script>
     <script src="../js/RPC.js"></script>
     <script src="echars/codemirror.js"></script>
     <script src="echars/javascript.js"></script>
 
     <style type="text/css">
-        .left {
+        body {
+            margin: 0;
+            padding: 0 5px;
+        }
+
+        .main {
+            background-color: black;
+            padding: 0 450px;
+            height: 700px;
+        }
+
+        .main-left {
+            width: 450px;
+            height: 700px;
+            background-color: #ebe8dd;
             float: left;
-            width: 700px;
+            margin-left: -450px;
         }
 
-        .left-content {
-            width: 100%;
-            height: 450px;
-            padding: 5px;
+        .main-center {
+            background-color: #ebe8dd;
+            height: 700px;
         }
 
-        .right {
-            margin-left: 710px;
-        }
-
-        .right-content {
-            width: 100%;
-            height: 600px;
-            padding: 5px;
+        .main-right {
+            width: 450px;
+            height: 700px;
+            background-color: #ebe8dd;
+            float: right;
+            margin-right: -450px;
         }
     </style>
 </head>
 <body>
     <%=errorshow1%><br />
     <%=errorshow2%>
-    <div class="header">Header</div>
-    <div class="left">
-        <div id="fee6601" class="left-content"></div>
-        <div id="fee6602" class="left-content"></div>
-        <div id="fee6603" class="left-content"></div>
-        <div id="feeQJ" class="left-content"></div>
-        <div id="feeML" class="left-content"></div>
+    <div class="main">
+        <div class="main-left">
+            <div id="fee6601" style="height: 33.33%; width: 100%"></div>
+            <div id="fee6602" style="height: 33.33%; width: 100%"></div>
+            <div id="fee6603" style="height: 33.33%; width: 100%"></div>
+        </div>
+        <div class="main-right">
+            <div id="feeQJ" style="height: 50%; width: 100%"></div>
+            <div id="feeML" style="height: 50%; width: 100%"></div>
+        </div>
+        <div class="main-center">
+            <div id="feePie" style="height: 50%; width: 100%"></div>
+            <div id="feeTotal" style="height: 50%; width: 100%"></div>
+        </div>
     </div>
-    <div class="right">
-        <div id="feePie" class="right-content"></div>
-        <div id="feeTotal" class="right-content"></div>
-    </div>
-    <div class="footer">Footer</div>
     <script type="text/javascript">
-        var echart_fee6601 = echarts.init(document.getElementById('fee6601'), 'vintage');
+        var echart_fee6601 = echarts.init(document.getElementById('fee6601'), 'fee_tax');
         option6601 = {
+            grid: {
+                left: '15%',
+                right: '15%',
+            },
             title: {
                 text: '销售费用率',
-                subtext: '年度数据',
             },
             tooltip: {
                 trigger: 'axis',
@@ -86,36 +102,36 @@
                     type: 'category',
                     data: <%=flDate%>
                 }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '费用',
-                },
-                {
-                    type: 'value',
-                    name: '费率',
-                    axisLabel: {
-                        formatter: '{value}%'
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '费用',
+                    },
+                    {
+                        type: 'value',
+                        name: '费率',
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
                     }
-                }
-            ],
-            series: [
-                {
-                    name: '费用',
-                    type: 'bar',
-                    data: <%=Bdata6601%>
+                ],
+                series: [
+                    {
+                        name: '费用',
+                        type: 'bar',
+                        data: <%=Bdata6601%>
                 },
-                {
-                    name: '费率',
-                    type: 'line',
-                    lineStyle: { width: 20 },
-                    symbolSize: 7,
-                    yAxisIndex: 1,
-                    data: <%=Ldata6601%>,
+                    {
+                        name: '费率',
+                        type: 'line',
+                        lineStyle: { width: 20 },
+                        symbolSize: 7,
+                        yAxisIndex: 1,
+                        data: <%=Ldata6601%>,
                     markPoint: { data: [<%=Lmark6601%>] }
-                }
-            ]
+                    }
+                ]
         };
 
         echart_fee6601.setOption(option6601);
@@ -123,160 +139,169 @@
     <%--6601销售--%>
 
     <script type="text/javascript">
-        var echart_fee6602 = echarts.init(document.getElementById('fee6602'), 'vintage');
-        option6602 = {
-            title: {
-                text: '管理费用率',
-                subtext: '年度数据',
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: "{b0}管理费用：{c0}元<br/>{b1}管理费用率：{c1}%"
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            legend: {
-                data: ['费用', '费率']
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: <%=flDate%>
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '费用',
+            var echart_fee6602 = echarts.init(document.getElementById('fee6602'), 'fee_tax');
+            option6602 = {
+                grid: {
+                    left: '15%',
+                    right: '15%',
                 },
-                {
-                    type: 'value',
-                    name: '费率',
-                    axisLabel: {
-                        formatter: '{value}%'
+                title: {
+                    text: '管理费用率',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: "{b0}管理费用：{c0}元<br/>{b1}管理费用率：{c1}%"
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
                     }
-                }
-            ],
-            series: [
-                {
-                    name: '费用',
-                    type: 'bar',
-                    data: <%=Bdata6602%>
                 },
-                {
-                    name: '费率',
-                    type: 'line',
-                    lineStyle: { width: 20 },
-                    symbolSize: 7,
-                    yAxisIndex: 1,
-                    data: <%=Ldata6602%>,
-                    markPoint: { data: [<%=Lmark6602%>] }
+                calculable: true,
+                legend: {
+                    data: ['费用', '费率']
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: <%=flDate%>
                 }
-            ]
-        };
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '费用',
+                    },
+                    {
+                        type: 'value',
+                        name: '费率',
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '费用',
+                        type: 'bar',
+                        data: <%=Bdata6602%>
+                },
+                    {
+                        name: '费率',
+                        type: 'line',
+                        lineStyle: { width: 20 },
+                        symbolSize: 7,
+                        yAxisIndex: 1,
+                        data: <%=Ldata6602%>,
+                    markPoint: { data: [<%=Lmark6602%>] }
+                    }
+                ]
+            };
 
-        echart_fee6602.setOption(option6602);
+            echart_fee6602.setOption(option6602);
     </script>
     <%--6602管理--%>
 
     <script type="text/javascript">
-        var echart_fee6603 = echarts.init(document.getElementById('fee6603'), 'vintage');
-        option6603 = {
-            title: {
-                text: '财务费用率',
-                subtext: '年度数据',
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: "{b0}财务费用：{c0}元<br/>{b1}财务费用率：{c1}%"
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            legend: {
-                data: ['费用', '费率']
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: <%=flDate%>
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '费用',
+            var echart_fee6603 = echarts.init(document.getElementById('fee6603'), 'fee_tax');
+            option6603 = {
+                grid: {
+                    left: '15%',
+                    right: '15%',
                 },
-                {
-                    type: 'value',
-                    name: '费率',
-                    axisLabel: {
-                        formatter: '{value}%'
+                title: {
+                    text: '财务费用率',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: "{b0}财务费用：{c0}元<br/>{b1}财务费用率：{c1}%"
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
                     }
-                }
-            ],
-            series: [
-                {
-                    name: '费用',
-                    type: 'bar',
-                    data: <%=Bdata6603%>
                 },
-                {
-                    name: '费率',
-                    type: 'line',
-                    lineStyle: { width: 20 },
-                    symbolSize: 7,
-                    yAxisIndex: 1,
-                    data: <%=Ldata6603%>,
-                        markPoint: { data: [<%=Lmark6603%>] }
+                calculable: true,
+                legend: {
+                    data: ['费用', '费率']
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: <%=flDate%>
                 }
-            ]
-        };
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '费用',
+                    },
+                    {
+                        type: 'value',
+                        name: '费率',
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '费用',
+                        type: 'bar',
+                        data: <%=Bdata6603%>
+                },
+                    {
+                        name: '费率',
+                        type: 'line',
+                        lineStyle: { width: 20 },
+                        symbolSize: 7,
+                        yAxisIndex: 1,
+                        data: <%=Ldata6603%>,
+                    markPoint: { data: [<%=Lmark6603%>] }
+                    }
+                ]
+            };
 
-        echart_fee6603.setOption(option6603);
+            echart_fee6603.setOption(option6603);
     </script>
     <%--6603财务--%>
 
     <script type="text/javascript">
-        var echart_feeQJ = echarts.init(document.getElementById('feeQJ'), 'vintage');
-        optionQJ = {
-            title: {
-                text: '期间费用率',
-                subtext: '年度数据',
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: "{b0}期间费用：{c0}元<br/>{b1}期间费用率：{c1}%"
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            legend: {
-                data: ['费用', '费率']
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: <%=flDate%>
+            var echart_feeQJ = echarts.init(document.getElementById('feeQJ'), 'fee_tax');
+            optionQJ = {
+                grid: {
+                    left: '15%',
+                    right: '15%',
+                },
+                title: {
+                    text: '期间费用率',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: "{b0}期间费用：{c0}元<br/>{b1}期间费用率：{c1}%"
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                calculable: true,
+                legend: {
+                    data: ['费用', '费率']
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: <%=flDate%>
                 }
                 ],
                 yAxis: [
@@ -315,11 +340,14 @@
     <%--QJ期间--%>
 
     <script type="text/javascript">
-            var echart_feeML = echarts.init(document.getElementById('feeML'), 'vintage');
+            var echart_feeML = echarts.init(document.getElementById('feeML'), 'fee_tax');
             optionML = {
+                grid: {
+                    left: '15%',
+                    right: '15%',
+                },
                 title: {
                     text: '毛利率',
-                    subtext: '年度数据',
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -342,73 +370,74 @@
                         type: 'category',
                         data: <%=flDate%>
                 }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '毛利',
-                },
-                {
-                    type: 'value',
-                    name: '毛利率',
-                    axisLabel: {
-                        formatter: '{value}%'
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: '毛利',
+                    },
+                    {
+                        type: 'value',
+                        name: '毛利率',
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
                     }
-                }
-            ],
-            series: [
-                {
-                    name: '毛利',
-                    type: 'bar',
-                    data: <%=BdataML%>
+                ],
+                series: [
+                    {
+                        name: '毛利',
+                        type: 'bar',
+                        data: <%=BdataML%>
                 },
-                {
-                    name: '毛利率',
-                    type: 'line',
-                    lineStyle: { width: 20 },
-                    symbolSize: 7,
-                    yAxisIndex: 1,
-                    data: <%=LdataML%>,
+                    {
+                        name: '毛利率',
+                        type: 'line',
+                        lineStyle: { width: 20 },
+                        symbolSize: 7,
+                        yAxisIndex: 1,
+                        data: <%=LdataML%>,
                         markPoint: { data: [<%=LmarkML%>] }
-                }
-            ]
-        };
+                    }
+                ]
+            };
 
-        echart_feeML.setOption(optionML);
+            echart_feeML.setOption(optionML);
     </script>
     <%--ML毛利，6401无数据，待检验--%>
 
     <script type="text/javascript">
-        var echart_pie_fee = echarts.init(document.getElementById('feePie'), 'vintage');
-        option_pie_fee = {
-            title: {
-                text: '年度费用占比情况',
-                subtext: '1月至现在的累计额',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{b} : {c}元 ({d}%)"
-            },
-            toolbox: {
-                show: true,
-                top: '15%',
-                right: '1%',
-                left: '79%',
-                feature: {
-                    mark: { show: true },
-                    dataView: { show: true, readOnly: false },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            series: [
-                {
-                    name: '年度费用占比',
-                    type: 'pie',
-                    radius: '50%',
-                    data: [<%=feePiedata%>],
+            var echart_pie_fee = echarts.init(document.getElementById('feePie'), 'fee_tax');
+            option_pie_fee = {
+                title: {
+                    text: '年度费用占比情况',
+                    subtext: '1月至现在的累计额',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{b} : {c}元 ({d}%)"
+                },
+                toolbox: {
+                    show: true,
+                    top: '15%',
+                    right: '1%',
+                    left: '79%',
+                    feature: {
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: '年度费用占比',
+                        type: 'pie',
+                        radius: '60%',
+                        center: ['50%', '55%'],
+                        data: [<%=feePiedata%>],
                         itemStyle: {
                             emphasis: {
                                 shadowBlur: 10,
@@ -421,19 +450,28 @@
             };
 
             echart_pie_fee.setOption(option_pie_fee);
+            window.addEventListener("resize", function () {
+
+                echart_pie_fee.resize();
+
+            });
     </script>
     <%--年度费用占比情况--%>
 
     <script type="text/javascript">
-            var echart_feeTotal = echarts.init(document.getElementById('feeTotal'), 'vintage');
+            var echart_feeTotal = echarts.init(document.getElementById('feeTotal'), 'fee_tax');
             optionTotal = {
+                grid: {
+                    left: '15%',
+                    right: '15%',
+                },
                 title: {
                     text: '累计费用费率情况',
-                    subtext: '年度数据',
+                    x: 'center'
                 },
                 tooltip: {
                     trigger: 'axis',
-                    formatter: "{b0}：{c1}元<br/>{b1}：{c2}%"
+                    formatter: "{b0}{a1}：{c1}元<br/>{b1}{a2}：{c2}%"
                 },
                 toolbox: {
                     show: true,
@@ -445,13 +483,14 @@
                 },
                 calculable: true,
                 legend: {
-                    data: ['费用', '费率']
+                    data: ['费用', '费率'],
+                    top: '8%'
                 },
                 xAxis: [
                     {
                         type: 'category',
-                        data: ['销售费用(率)', '管理费用(率)', '财务费用(率)', '期间费用(率)', '销售收入&毛利率']
-                }
+                        data: ['销售', '管理', '财务', '期间', '销售收入/毛利率']
+                    }
                 ],
                 yAxis: [
                     {
@@ -482,27 +521,31 @@
                             }
                         },
                         data: [<%=BdataHelp%>]
-                },
-                {
-                    name: '费用',
-                    type: 'bar',
-                    stack: '总量',
-                    itemStyle: { normal: { label: { show: true, position: 'inside' } } },
-                    data: [<%=BdataTotal%>]
-                },
-                {
-                    name: '费率',
-                    type: 'line',
-                    lineStyle: { width: 20 },
-                    symbolSize: 7,
-                    yAxisIndex: 1,
-                    data: [<%=LdataTotal%>],
-                    markPoint: { data: [<%=LmarkTotal%>] }
-                }
-            ]
+                    },
+                    {
+                        name: '费用',
+                        type: 'bar',
+                        stack: '总量',
+                        itemStyle: { normal: { label: { show: true, position: 'inside' } } },
+                        data: [<%=BdataTotal%>]
+                    },
+                    {
+                        name: '费率',
+                        type: 'line',
+                        lineStyle: { width: 20 },
+                        symbolSize: 7,
+                        yAxisIndex: 1,
+                        data: [<%=LdataTotal%>],
+                        markPoint: { data: [<%=LmarkTotal%>] }
+                    }
+                ]
             };
-
             echart_feeTotal.setOption(optionTotal);
+            window.addEventListener("resize", function () {
+
+                echart_feeTotal.resize();
+
+            });
     </script>
     <%--Total累计--%>
 </body>
