@@ -1,7 +1,6 @@
-document.write("<script language='javascript' src='../js/My97DatePicker/WdatePicker.js'></script>");
 var MAX_LENGTH_QUERYSTRING=2000;
 var DEF_LANGUAGECODE="cn";
-var ROOT_PATH="/singsong/";
+var ROOT_PATH="/textile/";
 var uDelimiter="@|@";
 var sDelimiter="@||@";
 var returnValueAndCode_Delimiter="@|||@";
@@ -12,9 +11,15 @@ var RIGHT_TAG_REPLACEMENT="RIGHT_TAG";
 var SINGLE_AND_REPLACEMENT="SINGLE_AND";
 var ERR_CODE="0";
 var SUCC_CODE="1";
+var SUCC_CODE="1";
 var SELECTED_COLOR="#21b208";
 var UNSELECTED_COLOR="#828282";
 var DISPLAYNAME_WIDTH="80";
+var sLinkServer="u8";
+var sLinkDatabase_AN="UFDATA_604_2014";
+ var sLinkDatabase_HS = "UFDATA_613_2014"
+   var sLinkDatabase_SH = "UFDATA_624_2014"
+    var sLinkDatabase_HK = "UFDATA_618_2014"
 var sErrCode=new Array();
 sErrCode[0]="\u5f53\u524d\u6570\u636e\u96c6\u6570\u636e\u4fdd\u5b58\u6210\u529f";
 sErrCode[1]="\u60a8\u786e\u5b9a\u8981\u5220\u9664\u5f53\u524d\u6570\u636e\u96c6\u8bb0\u5f55\u5417?";
@@ -41,7 +46,12 @@ function encodeSql(a){a=a.replace(/&/g,"&amp;");a=a.replace(/>/g,"&gt;");a=a.rep
 function encodeScript(a){a=a.replace(/"/g,DOUBLE_QUOTATION_REPLACEMENT);a=a.replace(/'/g,SINGLE_QUOTATION_REPLACEMENT);a=a.replace(/</g,LEFT_TAG_REPLACEMENT);a=a.replace(/>/g,RIGHT_TAG_REPLACEMENT);a=a.replace(/&/g,SINGLE_AND_REPLACEMENT);return a}
 function getHostname(){return window.location.host}
 function moveColumn(f,d,e){var c,a;var g,b;if(f==null||d<0||d>=f.rows(0).cells.length||e>=f.rows(0).cells.length||e<0){return}for(c=0;c<f.rows.length;c++){g=f.rows(c).cells(d);b=f.rows(c).cells(e);g.swapNode(b)}}function fillItemsIntoDropDownList(a,j,g,c){var d,l;var k,b;var h;try{l=new window.recordset();l.sqlSource=a;l.open();for(d=0;d<l.recordCount;d++){k=l.item(d,j);b=l.item(d,g);h=document.createElement("OPTION");c.appendChild(h);h.innerText=b;h.value=k}}catch(f){window.alert("fillItemsIntoDropDownList Error:"+f.message)}}function addItemIntoDropDownList(f,a,b){var d;try{d=document.createElement("OPTION");b.appendChild(d);d.innerText=a;d.value=f}catch(c){window.alert("addItemIntoDropDownList Error:"+c.message)}}function clearItemsFromDropDownList(a){try{a.options.length=0}catch(b){window.alert("clearItemsFromDropDownList Error:"+b.message)}}function htmlFormatText(b,a){document.execCommand(b,true,a)}
-function _assert(b,a){if(b!=true){throw new Error(0,a)}}function translateSqlDataType(a){if(a==null||a==""){return""}a=a.toLowerCase();switch(a){case"bigint":case"int":return"int";case"decimal":case"float":return"float";case"bit":return"bool";case"varchar":case"nvarchar":case"char":case"nchar":case"uniqueidentifier":return"string";case"smalldatetime":case"datetime":return"datetime";default:return"string"}}function postScript(timerIndex,script,containerId){var bVisible=true;var parentObj=document.getElementById(containerId);while(parentObj!=null&&parentObj.tagName.toUpperCase()!="BODY"){if(parentObj.currentStyle.display=="none"){bVisible=false;break}parentObj=parentObj.parentElement}if(bVisible==false){if(timerIndex>=timerId.length){timerId[timerIndex]=""}if(timerId[timerIndex]==""){timerId[timerIndex]=window.setInterval("postScript("+timerIndex.toString()+",'"+script+"','"+containerId+"')",200)}else{window.clearInterval(timerId[timerIndex]);timerId[timerIndex]="";timerId[timerIndex]=window.setInterval("postScript("+timerIndex.toString()+",'"+script+"','"+containerId+"')",200)}}else{if(timerId[timerIndex]!=""){window.clearInterval(timerId[timerIndex]);timerId[timerIndex]=""}eval(script)}}function doPrint(f,b,a,d,e){if((f.toString()=="")||(f.toString()=="0")){var c=getAlertMsg("\u4e0d\u80fd\u6267\u884c\u6253\u5370\u64cd\u4f5c","\u6ca1\u6709\u9009\u62e9\u4e3b\u8bb0\u5f55","\u8bf7\u67e5\u770b\u4f7f\u7528\u5e2e\u52a9!");window.alert(c)}else{if(e){if((parseInt(navigator.appVersion)>=4)){xposition=(screen.width-d)/2;yposition=(screen.height-a)/2}}else{xposition=0;yposition=0}sFeatures="width="+d+",height="+a+",location=0,menubar=1,resizable=1,scrollbars=1,status=0,titlebar=0,toolbar=0,hotkeys=0,screenx="+xposition+",screeny="+yposition+",left="+xposition+",top="+yposition;if(b.indexOf("?")<0){window.open(b+"?AutoInc="+f.toString(),"",sFeatures)}else{window.open(b+"&AutoInc="+f.toString(),"",sFeatures)}}}var sCheck_ErrMsg=new Array();sCheck_ErrMsg[0]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5fc5\u987b\u4e3a\u6574\u6570\u7c7b\u578b(0123456789)";sCheck_ErrMsg[1]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5fc5\u987b\u4e3a\u65e5\u671f\u7c7b\u578b(yyyy-MM-dd)";sCheck_ErrMsg[2]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5fc5\u987b\u4e3a\u6570\u503c\u7c7b\u578b(.0123456789)";sCheck_ErrMsg[3]="\u7ea2\u8272\u6846\u7684\u5b57\u6bb5\u503c\u662f\u5fc5\u586b\u9879,\u8bf7\u5b8c\u6574\u586b\u5199\u540e\u518d\u4fdd\u5b58";sCheck_ErrMsg[4]="\u60a8\u6b63\u8f93\u5165\u6216\u7f16\u8f91\u7684\u503c\u4e0d\u5141\u8bb8\u4e3a\u7a7a,\u8bf7\u5b8c\u6574\u586b\u5199";sCheck_ErrMsg[5]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5185\u5bb9\u8d85\u957f,\u65e0\u6cd5\u4fdd\u5b58";var sDatagrid_ErrMsg=new Array();sDatagrid_ErrMsg[0]="Error:dscName,xmlEngine or sqlSource property is not allowed to be set null";sDatagrid_ErrMsg[1]="Warning:if tableName or keyfieldname property is null,then the datagrid is not allowed to be updated";sDatagrid_ErrMsg[2]="Error:Error in DSO object creating";sDatagrid_ErrMsg[3]="\u5f53\u524d\u6ca1\u6709\u6570\u636e\u8bb0\u5f55\u53ef\u4f9b\u5220\u9664";sDatagrid_ErrMsg[4]="Error:xml recordset is not loaded completed";sDatagrid_ErrMsg[5]="Error:xml src string or QueryString is too long";sDatagrid_ErrMsg[6]="Warning:the data has been edited and changed\nDo you want to proceed and discard the changed data?";sDatagrid_ErrMsg[7]="\u6807\u8bb0\u7ea2\u8272(*)\u7684\u5217\u7684\u503c\u4e0d\u5141\u8bb8\u4e3a\u7a7a,\u8bf7\u5b8c\u6574\u586b\u5199\u540e\u518d\u4fdd\u5b58";sDatagrid_ErrMsg[8]="the function's parameter is not correct";sDatagrid_ErrMsg[9]="\u8bf7\u81f3\u5c11\u9009\u62e9\u4e00\u6761\u6570\u636e";var sWfl_ErrMsg=new Array();sWfl_ErrMsg[0]="\u5de5\u4f5c\u6d41\u65e0\u6cd5\u6b63\u5e38\u64cd\u4f5c,\u539f\u56e0\uff1a\u51fd\u6570\u53c2\u6570\u4e0d\u8db3";sWfl_ErrMsg[1]="\u5de5\u4f5c\u6d41\u65e0\u6cd5\u6b63\u5e38\u64cd\u4f5c,\u539f\u56e0\uff1a\u65e0\u6ee1\u8db3\u6d41\u8f6c\u6761\u4ef6\u7684\u4e0b\u4e00\u73af\u8282,\u5728\u6d41\u8f6c\u8def\u5f84\u4e2d\u5fc5\u987b\u6307\u5b9a\u4e00\u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u4e0b\u4e00\u73af\u8282";sWfl_ErrMsg[2]="\u5de5\u4f5c\u6d41\u65e0\u6cd5\u6b63\u5e38\u64cd\u4f5c,\u539f\u56e0\uff1a\u5b9e\u4f53\u4e0d\u652f\u6301\u5de5\u4f5c\u6d41\u64cd\u4f5c";sWfl_ErrMsg[3]="\u8fdb\u884c\u5de5\u4f5c\u6d41\u64cd\u4f5c\u524d\u5fc5\u987b\u4fdd\u5b58\u5b9e\u4f53\u5b9e\u4f8b";sWfl_ErrMsg[4]="\u53ea\u6709\u5b9e\u4f53\u7684\u5f55\u5165\u4eba\u5141\u8bb8\u542f\u52a8\u5de5\u4f5c\u6d41";
+function _assert(b, a) { if (b != true) { throw new Error(0, a) } }
+function translateSqlDataType(a) {
+    if (a == null || a == "") { return "" }
+    a = a.toLowerCase();
+    switch (a)
+{case"bigint":case"int":return"int";case"decimal":case"float":return"float";case"bit":return"bool";case"varchar":case"nvarchar":case"char":case"nchar":case"uniqueidentifier":return"string";case"smalldatetime":case"datetime":return"datetime";default:return"string"}}function postScript(timerIndex,script,containerId){var bVisible=true;var parentObj=document.getElementById(containerId);while(parentObj!=null&&parentObj.tagName.toUpperCase()!="BODY"){if(parentObj.currentStyle.display=="none"){bVisible=false;break}parentObj=parentObj.parentElement}if(bVisible==false){if(timerIndex>=timerId.length){timerId[timerIndex]=""}if(timerId[timerIndex]==""){timerId[timerIndex]=window.setInterval("postScript("+timerIndex.toString()+",'"+script+"','"+containerId+"')",200)}else{window.clearInterval(timerId[timerIndex]);timerId[timerIndex]="";timerId[timerIndex]=window.setInterval("postScript("+timerIndex.toString()+",'"+script+"','"+containerId+"')",200)}}else{if(timerId[timerIndex]!=""){window.clearInterval(timerId[timerIndex]);timerId[timerIndex]=""}eval(script)}}function doPrint(f,b,a,d,e){if((f.toString()=="")||(f.toString()=="0")){var c=getAlertMsg("\u4e0d\u80fd\u6267\u884c\u6253\u5370\u64cd\u4f5c","\u6ca1\u6709\u9009\u62e9\u4e3b\u8bb0\u5f55","\u8bf7\u67e5\u770b\u4f7f\u7528\u5e2e\u52a9!");window.alert(c)}else{if(e){if((parseInt(navigator.appVersion)>=4)){xposition=(screen.width-d)/2;yposition=(screen.height-a)/2}}else{xposition=0;yposition=0}sFeatures="width="+d+",height="+a+",location=0,menubar=1,resizable=1,scrollbars=1,status=0,titlebar=0,toolbar=0,hotkeys=0,screenx="+xposition+",screeny="+yposition+",left="+xposition+",top="+yposition;if(b.indexOf("?")<0){window.open(b+"?AutoInc="+f.toString(),"",sFeatures)}else{window.open(b+"&AutoInc="+f.toString(),"",sFeatures)}}}var sCheck_ErrMsg=new Array();sCheck_ErrMsg[0]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5fc5\u987b\u4e3a\u6574\u6570\u7c7b\u578b(0123456789)";sCheck_ErrMsg[1]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5fc5\u987b\u4e3a\u65e5\u671f\u7c7b\u578b(yyyy-MM-dd)";sCheck_ErrMsg[2]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5fc5\u987b\u4e3a\u6570\u503c\u7c7b\u578b(.0123456789)";sCheck_ErrMsg[3]="\u7ea2\u8272\u6846\u7684\u5b57\u6bb5\u503c\u662f\u5fc5\u586b\u9879,\u8bf7\u5b8c\u6574\u586b\u5199\u540e\u518d\u4fdd\u5b58";sCheck_ErrMsg[4]="\u60a8\u6b63\u8f93\u5165\u6216\u7f16\u8f91\u7684\u503c\u4e0d\u5141\u8bb8\u4e3a\u7a7a,\u8bf7\u5b8c\u6574\u586b\u5199";sCheck_ErrMsg[5]="\u8f93\u5165\u7684\u5b57\u6bb5\u503c\u5185\u5bb9\u8d85\u957f,\u65e0\u6cd5\u4fdd\u5b58";var sDatagrid_ErrMsg=new Array();sDatagrid_ErrMsg[0]="Error:dscName,xmlEngine or sqlSource property is not allowed to be set null";sDatagrid_ErrMsg[1]="Warning:if tableName or keyfieldname property is null,then the datagrid is not allowed to be updated";sDatagrid_ErrMsg[2]="Error:Error in DSO object creating";sDatagrid_ErrMsg[3]="\u5f53\u524d\u6ca1\u6709\u6570\u636e\u8bb0\u5f55\u53ef\u4f9b\u5220\u9664";sDatagrid_ErrMsg[4]="Error:xml recordset is not loaded completed";sDatagrid_ErrMsg[5]="Error:xml src string or QueryString is too long";sDatagrid_ErrMsg[6]="Warning:the data has been edited and changed\nDo you want to proceed and discard the changed data?";sDatagrid_ErrMsg[7]="\u6807\u8bb0\u7ea2\u8272(*)\u7684\u5217\u7684\u503c\u4e0d\u5141\u8bb8\u4e3a\u7a7a,\u8bf7\u5b8c\u6574\u586b\u5199\u540e\u518d\u4fdd\u5b58";sDatagrid_ErrMsg[8]="the function's parameter is not correct";sDatagrid_ErrMsg[9]="\u8bf7\u81f3\u5c11\u9009\u62e9\u4e00\u6761\u6570\u636e";var sWfl_ErrMsg=new Array();sWfl_ErrMsg[0]="\u5de5\u4f5c\u6d41\u65e0\u6cd5\u6b63\u5e38\u64cd\u4f5c,\u539f\u56e0\uff1a\u51fd\u6570\u53c2\u6570\u4e0d\u8db3";sWfl_ErrMsg[1]="\u5de5\u4f5c\u6d41\u65e0\u6cd5\u6b63\u5e38\u64cd\u4f5c,\u539f\u56e0\uff1a\u65e0\u6ee1\u8db3\u6d41\u8f6c\u6761\u4ef6\u7684\u4e0b\u4e00\u73af\u8282,\u5728\u6d41\u8f6c\u8def\u5f84\u4e2d\u5fc5\u987b\u6307\u5b9a\u4e00\u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u4e0b\u4e00\u73af\u8282";sWfl_ErrMsg[2]="\u5de5\u4f5c\u6d41\u65e0\u6cd5\u6b63\u5e38\u64cd\u4f5c,\u539f\u56e0\uff1a\u5b9e\u4f53\u4e0d\u652f\u6301\u5de5\u4f5c\u6d41\u64cd\u4f5c";sWfl_ErrMsg[3]="\u8fdb\u884c\u5de5\u4f5c\u6d41\u64cd\u4f5c\u524d\u5fc5\u987b\u4fdd\u5b58\u5b9e\u4f53\u5b9e\u4f8b";sWfl_ErrMsg[4]="\u53ea\u6709\u5b9e\u4f53\u7684\u5f55\u5165\u4eba\u5141\u8bb8\u542f\u52a8\u5de5\u4f5c\u6d41";
 
 function point(iX, iY){
     this.x = iX;
@@ -100,4 +110,31 @@ function downloadFile(url) {
     elemIF.src = url;
     elemIF.style.display = "none";
     document.body.appendChild(elemIF);
+}
+
+function guid() { }
+guid.newGuid = function() {
+    var guid = "";
+    for (var i = 1; i <= 32; i++) {
+        var n = Math.floor(Math.random() * 16.0).toString(16);
+        guid += n;
+        if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+            guid += "-";
+    }
+    return guid;
+}
+guid.empty = function()
+{ return "00000000-0000-0000-0000-000000000000"; }
+
+//Í¨¹ýQueryString
+function encode(Str) {
+    Str = Str.replace(/\+/g, "[]");
+    Str = Str.replace(/%/g, "[%]");
+    Str = Str.replace(/&/g, "[_AND_]");
+
+    Str = Str.replace(/</g, "[_L_]");
+    Str = Str.replace(/>/g, "[_R_]");
+    Str = Str.replace(/"/g, "[_DQ_]");
+    Str = Str.replace(/#/g, "[||--]");
+    return Str;
 }
