@@ -19,7 +19,8 @@
     <script src="echars/codemirror.js"></script>
     <script src="echars/javascript.js"></script>
 
-    <style type="text/css">
+    <style type="text/css"> 
+        /*三列布局 左中列固定 右侧自适应*/
         body {
             margin: 0;
             padding: 0 5px;
@@ -27,30 +28,30 @@
 
         .main {
             background-color: black;
-            padding: 0 450px;
             height: 700px;
         }
-
+        
         .main-left {
-            width: 450px;
+            width: 425px;
             height: 700px;
             background-color: #ebe8dd;
             float: left;
-            margin-left: -450px;
         }
 
         .main-center {
-            background-color: #ebe8dd;
+            width: 425px;
             height: 700px;
+            background-color: #ebe8dd;
+            padding-left:20px;
+            float: left;
         }
 
         .main-right {
-            width: 450px;
-            height: 700px;
             background-color: #ebe8dd;
-            float: right;
-            margin-right: -450px;
+            height: 700px;
+            margin-left: 870px;
         }
+
     </style>
 </head>
 <body>
@@ -62,11 +63,11 @@
             <div id="fee6602" style="height: 33.33%; width: 100%"></div>
             <div id="fee6603" style="height: 33.33%; width: 100%"></div>
         </div>
-        <div class="main-right">
+        <div class="main-center">
             <div id="feeQJ" style="height: 50%; width: 100%"></div>
             <div id="feeML" style="height: 50%; width: 100%"></div>
         </div>
-        <div class="main-center">
+        <div class="main-right">
             <div id="feePie" style="height: 50%; width: 100%"></div>
             <div id="feeTotal" style="height: 50%; width: 100%"></div>
         </div>
@@ -438,6 +439,15 @@
                         radius: '60%',
                         center: ['50%', '55%'],
                         data: [<%=feePiedata%>],
+                        label: {
+                            normal: {//数值显示设置
+                                formatter: '{b}:{d}%',
+                                textStyle: {
+                                    fontWeight: 'normal',
+                                    fontSize: 14
+                                }
+                            }
+                        }, 
                         itemStyle: {
                             emphasis: {
                                 shadowBlur: 10,
