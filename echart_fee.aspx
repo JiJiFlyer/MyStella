@@ -20,36 +20,36 @@
     <script src="echars/javascript.js"></script>
 
     <style type="text/css"> 
-        /*三列布局 左中列固定 右侧自适应*/
-        body {
+        html,body {
             margin: 0;
             padding: 0 5px;
+            height: 100%;
         }
 
         .main {
             background-color: black;
-            height: 700px;
+            height: 100%;
         }
         
         .main-left {
-            width: 425px;
-            height: 700px;
+            width: 30%;
+            height: 100%;
             background-color: #ebe8dd;
             float: left;
         }
 
         .main-center {
-            width: 425px;
-            height: 700px;
+            width: 30%;
+            height: 100%;
             background-color: #ebe8dd;
-            padding-left:20px;
             float: left;
         }
 
         .main-right {
+            width: 40%;
             background-color: #ebe8dd;
-            height: 700px;
-            margin-left: 870px;
+            height: 100%;
+            float: left;
         }
 
     </style>
@@ -101,13 +101,13 @@
             xAxis: [
                 {
                     type: 'category',
-                    data: <%=flDate%>
+                    data: <%=flDate%>,
                 }
                 ],
                 yAxis: [
                     {
                         type: 'value',
-                        name: '费用',
+                        name: '费用（元）',
                     },
                     {
                         type: 'value',
@@ -126,8 +126,6 @@
                     {
                         name: '费率',
                         type: 'line',
-                        lineStyle: { width: 20 },
-                        symbolSize: 7,
                         yAxisIndex: 1,
                         data: <%=Ldata6601%>,
                     markPoint: { data: [<%=Lmark6601%>] }
@@ -136,6 +134,11 @@
         };
 
         echart_fee6601.setOption(option6601);
+        window.addEventListener("resize", function () {
+
+            echart_fee6601.resize();
+
+        });
     </script>
     <%--6601销售--%>
 
@@ -174,7 +177,7 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: '费用',
+                        name: '费用（元）',
                     },
                     {
                         type: 'value',
@@ -193,8 +196,6 @@
                     {
                         name: '费率',
                         type: 'line',
-                        lineStyle: { width: 20 },
-                        symbolSize: 7,
                         yAxisIndex: 1,
                         data: <%=Ldata6602%>,
                     markPoint: { data: [<%=Lmark6602%>] }
@@ -203,6 +204,11 @@
             };
 
             echart_fee6602.setOption(option6602);
+            window.addEventListener("resize", function () {
+
+                echart_fee6602.resize();
+
+            });
     </script>
     <%--6602管理--%>
 
@@ -241,7 +247,7 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: '费用',
+                        name: '费用（元）',
                     },
                     {
                         type: 'value',
@@ -260,8 +266,6 @@
                     {
                         name: '费率',
                         type: 'line',
-                        lineStyle: { width: 20 },
-                        symbolSize: 7,
                         yAxisIndex: 1,
                         data: <%=Ldata6603%>,
                     markPoint: { data: [<%=Lmark6603%>] }
@@ -270,6 +274,11 @@
             };
 
             echart_fee6603.setOption(option6603);
+            window.addEventListener("resize", function () {
+
+                echart_fee6603.resize();
+
+            });
     </script>
     <%--6603财务--%>
 
@@ -308,7 +317,7 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: '费用',
+                        name: '费用（元）',
                     },
                     {
                         type: 'value',
@@ -327,8 +336,6 @@
                     {
                         name: '费率',
                         type: 'line',
-                        lineStyle: { width: 20 },
-                        symbolSize: 7,
                         yAxisIndex: 1,
                         data: <%=LdataQJ%>,
                     markPoint: { data: [<%=LmarkQJ%>] }
@@ -337,6 +344,11 @@
             };
 
             echart_feeQJ.setOption(optionQJ);
+            window.addEventListener("resize", function () {
+
+                echart_feeQJ.resize();
+
+            });
     </script>
     <%--QJ期间--%>
 
@@ -375,7 +387,7 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: '毛利',
+                        name: '毛利（元）',
                     },
                     {
                         type: 'value',
@@ -394,8 +406,6 @@
                     {
                         name: '毛利率',
                         type: 'line',
-                        lineStyle: { width: 20 },
-                        symbolSize: 7,
                         yAxisIndex: 1,
                         data: <%=LdataML%>,
                         markPoint: { data: [<%=LmarkML%>] }
@@ -404,6 +414,11 @@
             };
 
             echart_feeML.setOption(optionML);
+            window.addEventListener("resize", function () {
+
+                echart_feeML.resize();
+
+            });
     </script>
     <%--ML毛利，6401无数据，待检验--%>
 
@@ -505,7 +520,7 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: '费用',
+                        name: '费用（元）',
                     },
                     {
                         type: 'value',
@@ -542,8 +557,6 @@
                     {
                         name: '费率',
                         type: 'line',
-                        lineStyle: { width: 20 },
-                        symbolSize: 7,
                         yAxisIndex: 1,
                         data: [<%=LdataTotal%>],
                         markPoint: { data: [<%=LmarkTotal%>] }

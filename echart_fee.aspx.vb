@@ -38,7 +38,7 @@
             Dim fee_6401(13) As Double
             Dim month As Integer = Format(Now(), "MM")
             For i = 1 To month
-                flDate.Append("""" & i.ToString() & "月"",")
+                flDate.Append("" & i.ToString() & ",")
             Next i
             flDate.Append("]")
 
@@ -201,15 +201,15 @@
             Dim qjfl_t As Double = qjfy_total / (fee6001_total + fee6051_total) * 100
             Dim mll_t As Double = (fee6001_total - fee6401_total) / fee6001_total * 100
             BdataTotal.Append("" & Format(fee6601_total, "#.##") & "," & Format(fee6602_total, "#.##") & "," & Format(fee6603_total, "#.##") & ",
-" & Format(qjfy_total, "#.##") & "," & Format(fee6001_total, "#.##") & ",")
+                               " & Format(qjfy_total, "#.##") & "," & Format(fee6001_total, "#.##") & ",")
             BdataHelp.Append("0," & Format(fee6601_total, "#.##") & "," & Format(fee6601_total + fee6602_total, "#.##") & ",0,0,")
             LdataTotal.Append("" & Format(xsfl_t, "#.##") & "," & Format(glfl_t, "#.##") & "," & Format(cwfl_t, "#.##") & ",
-" & Format(qjfl_t, "#.##") & "," & Format(mll_t, "#.##") & ",")
+                               " & Format(qjfl_t, "#.##") & "," & Format(mll_t, "#.##") & ",")
             LmarkTotal.Append("{value : " & Format(xsfl_t, "#.##") & ", xAxis: 0, yAxis: " & Format(xsfl_t, "#.##") & "},
-{value : " & Format(glfl_t, "#.##") & ", xAxis: 1, yAxis: " & Format(glfl_t, "#.##") & "},
-{value : " & Format(cwfl_t, "#.##") & ", xAxis: 2, yAxis: " & Format(cwfl_t, "#.##") & "},
-{value : " & Format(qjfl_t, "#.##") & ", xAxis: 3, yAxis: " & Format(qjfl_t, "#.##") & "},
-{value : " & Format(mll_t, "#.##") & ", xAxis: 4, yAxis: " & Format(mll_t, "#.##") & "},")
+                               {value : " & Format(glfl_t, "#.##") & ", xAxis: 1, yAxis: " & Format(glfl_t, "#.##") & "},
+                               {value : " & Format(cwfl_t, "#.##") & ", xAxis: 2, yAxis: " & Format(cwfl_t, "#.##") & "},
+                               {value : " & Format(qjfl_t, "#.##") & ", xAxis: 3, yAxis: " & Format(qjfl_t, "#.##") & "},
+                               {value : " & Format(mll_t, "#.##") & ", xAxis: 4, yAxis: " & Format(mll_t, "#.##") & "},")
         Catch ex As Exception
             DB.Close(db, drDB)
             errorshow1 = ex.Message
