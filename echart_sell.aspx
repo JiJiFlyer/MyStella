@@ -78,7 +78,7 @@
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: "{b0}月{a0}：{c0}个<br/>{b1}月{a1}：{c1}元"
+                formatter: "{b0}月{a0}：{c0}<%=unit(1)%><br/>{b1}月{a1}：{c1}元"
             },
             toolbox: {
                 show: true,
@@ -102,7 +102,7 @@
             yAxis: [
                 {
                     type: 'value',
-                    name: '数量（个）',
+                    name: '数量（<%=unit(1)%>）',
                 },
                 {
                     type: 'value',
@@ -120,7 +120,11 @@
                     type: 'line',
                     yAxisIndex: 1,
                     data: [<%=Ldata1%>],
-                    markPoint: { data: [<%=Lmark1%>] }
+                    markPoint: {
+                        symbol: 'circle',
+                        symbolSize: 25,
+                        data: [<%=Lmark1%>]
+                    }
                 }
             ]
         };
@@ -147,7 +151,7 @@
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: "{b0}月{a0}：{c0}个<br/>{b1}月{a1}：{c1}元"
+                formatter: "{b0}月{a0}：{c0}<%=unit(2)%><br/>{b1}月{a1}：{c1}元"
             },
             toolbox: {
                 show: true,
@@ -171,7 +175,7 @@
             yAxis: [
                 {
                     type: 'value',
-                    name: '数量（个）',
+                    name: '数量（<%=unit(2)%>）',
                 },
                 {
                     type: 'value',
@@ -189,7 +193,11 @@
                     type: 'line',
                     yAxisIndex: 1,
                     data: [<%=Ldata2%>],
-                        markPoint: { data: [<%=Lmark2%>] }
+                    markPoint: {
+                        symbol: 'circle',
+                        symbolSize: 25,
+                        data: [<%=Lmark2%>]
+                    }
                 }
             ]
         };
@@ -216,7 +224,7 @@
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: "{b0}月{a0}：{c0}个<br/>{b1}月{a1}：{c1}元"
+                formatter: "{b0}月{a0}：{c0}<%=unit(3)%><br/>{b1}月{a1}：{c1}元"
             },
             toolbox: {
                 show: true,
@@ -240,7 +248,7 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: '数量（个）',
+                        name: '数量（<%=unit(3)%>）',
                     },
                     {
                         type: 'value',
@@ -258,7 +266,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: [<%=Ldata3%>],
-                        markPoint: { data: [<%=Lmark3%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=Lmark3%>]
+                        }
                     }
                 ]
         };
@@ -285,7 +297,7 @@
                 },
                 tooltip: {
                     trigger: 'axis',
-                    formatter: "{b0}月{a0}：{c0}个<br/>{b1}月{a1}：{c1}元"
+                    formatter: "{b0}月{a0}：{c0}<%=unit(4)%><br/>{b1}月{a1}：{c1}元"
                 },
                 toolbox: {
                     show: true,
@@ -309,7 +321,7 @@
                 yAxis: [
                     {
                         type: 'value',
-                        name: '数量（个）',
+                        name: '数量（<%=unit(4)%>）',
                     },
                     {
                         type: 'value',
@@ -327,7 +339,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: [<%=Ldata4%>],
-                        markPoint: { data: [<%=Lmark4%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=Lmark4%>]
+                        }
                     }
                 ]
             };

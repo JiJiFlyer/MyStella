@@ -4,6 +4,7 @@
     Public errorshow2 As String
     Public flDate As New StringBuilder()
     Public topgoods(10) As String
+    Public unit(5) As String
     Public Bdata1 As New StringBuilder()
     Public Ldata1 As New StringBuilder()
     Public Lmark1 As New StringBuilder()
@@ -36,14 +37,25 @@
 
             Dim a As Integer = 1
             '先得出本年度至今销量额最高的四个产品
-            sSql = "select top 4 goodsname,sum(tprice) as tprice from echart_sell where SUBSTRING(billdate,1,4)=DateName(YEAR,GetDate())
+            sSql = "select goodsname,sum(tprice) as tprice from echart_sell where SUBSTRING(billdate,1,4)=DateName(YEAR,GetDate())
                     group by goodsname order by tprice desc"
             drDB = db.GetDataReader(sSql)
             While drDB.Read()
-                topgoods(a) = drDB.Item("goodsname")
-                a = a + 1
+                If Not IsDBNull(drDB.Item("goodsname")) Then '去除产品名为空的产品
+                    topgoods(a) = drDB.Item("goodsname")
+                    a = a + 1
+                End If
             End While
             drDB.Close()
+
+            '获取前四产品的计量单位
+            For i = 1 To 4
+                sSql = "select distinct goodsunit from echart_sell where goodsname = '" & topgoods(i) & "'"
+                drDB = db.GetDataReader(sSql)
+                drDB.Read()
+                unit(i) = drDB.Item("goodsunit")
+                drDB.Close()
+            Next i
 
             For i = 1 To month
                 '销售额第一产品量价图数据填入

@@ -78,6 +78,7 @@
             grid: {
                 left: '15%',
                 right: '15%',
+                bottom: '10%'
             },
             title: {
                 text: '销售费用率',
@@ -128,7 +129,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: <%=Ldata6601%>,
-                    markPoint: { data: [<%=Lmark6601%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=Lmark6601%>]
+                        }
                     }
                 ]
         };
@@ -148,6 +153,7 @@
                 grid: {
                     left: '15%',
                     right: '15%',
+                    bottom:'10%'
                 },
                 title: {
                     text: '管理费用率',
@@ -198,7 +204,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: <%=Ldata6602%>,
-                    markPoint: { data: [<%=Lmark6602%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=Lmark6602%>]
+                        }
                     }
                 ]
             };
@@ -218,6 +228,7 @@
                 grid: {
                     left: '15%',
                     right: '15%',
+                    bottom: '10%'
                 },
                 title: {
                     text: '财务费用率',
@@ -268,7 +279,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: <%=Ldata6603%>,
-                    markPoint: { data: [<%=Lmark6603%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=Lmark6603%>]
+                        }
                     }
                 ]
             };
@@ -288,6 +303,7 @@
                 grid: {
                     left: '15%',
                     right: '15%',
+                    bottom: '10%'
                 },
                 title: {
                     text: '期间费用率',
@@ -338,7 +354,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: <%=LdataQJ%>,
-                    markPoint: { data: [<%=LmarkQJ%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=LmarkQJ%>]
+                        }
                     }
                 ]
             };
@@ -358,6 +378,7 @@
                 grid: {
                     left: '15%',
                     right: '15%',
+                    bottom: '10%'
                 },
                 title: {
                     text: '毛利率',
@@ -408,7 +429,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: <%=LdataML%>,
-                        markPoint: { data: [<%=LmarkML%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=LmarkML%>]
+                        }
                     }
                 ]
             };
@@ -489,6 +514,7 @@
                 grid: {
                     left: '15%',
                     right: '15%',
+                    bottom: '10%'
                 },
                 title: {
                     text: '累计费用费率情况',
@@ -551,7 +577,7 @@
                         name: '费用',
                         type: 'bar',
                         stack: '总量',
-                        itemStyle: { normal: { label: { show: true, position: 'inside' } } },
+                        //itemStyle: { normal: { label: { show: true, position: 'inside' } } },
                         data: [<%=BdataTotal%>]
                     },
                     {
@@ -559,7 +585,11 @@
                         type: 'line',
                         yAxisIndex: 1,
                         data: [<%=LdataTotal%>],
-                        markPoint: { data: [<%=LmarkTotal%>] }
+                        markPoint: {
+                            symbol: 'circle',
+                            symbolSize: 25,
+                            data: [<%=LmarkTotal%>]
+                        }
                     }
                 ]
             };
