@@ -44,7 +44,7 @@
             '6001 主营业务收入
             For i = 1 To month
                 sSql = "select isnull(sum(df_bala),0) as fee from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
-                        where itemno like '6001%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
+                        where bookno=001 and itemno like '6001%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
                 drDB = db.GetDataReader(sSql)
                 drDB.Read()
                 fee_6001(i) = drDB.Item("fee")
@@ -54,7 +54,7 @@
             '6051 其他业务收入
             For i = 1 To month
                 sSql = "select isnull(sum(df_bala),0) as fee from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
-                        where itemno like '6051%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
+                        where bookno=001 and itemno like '6051%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
                 drDB = db.GetDataReader(sSql)
                 drDB.Read()
                 fee_6051(i) = drDB.Item("fee")
@@ -64,7 +64,7 @@
             '2221
             For i = 1 To month
                 sSql = "select isnull(sum(jf_bala),0) as tax from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
-                        where itemno like '2221%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
+                        where bookno=001 and itemno like '2221%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
                 drDB = db.GetDataReader(sSql)
                 drDB.Read()
                 tax_2221(i) = drDB.Item("tax")
@@ -74,7 +74,7 @@
             '2221001
             For i = 1 To month
                 sSql = "select isnull(sum(jf_bala),0) as tax from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
-                        where itemno like '2221001%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
+                        where bookno=001 and itemno like '2221001%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
                 drDB = db.GetDataReader(sSql)
                 drDB.Read()
                 tax_2221001(i) = drDB.Item("tax")
@@ -89,7 +89,7 @@
             Ldata2221002.Append("[")
             For i = 1 To month
                 sSql = "select isnull(sum(jf_bala),0) as zzse from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
-                        where itemno like '2221002%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
+                        where bookno=001 and itemno like '2221002%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
                 drDB = db.GetDataReader(sSql)
                 drDB.Read()
                 tax_2221002(i) = drDB.Item("zzse")
@@ -111,7 +111,7 @@
             Ldata2221005.Append("[")
             For i = 1 To month
                 sSql = "select isnull(sum(jf_bala),0) as sdse from f_voucher_entry a inner join f_voucher b on b.autoinc=a.voucherid 
-                        where itemno like '2221005%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
+                        where bookno=001 and itemno like '2221005%' and SUBSTRING(b.billdate,5,2)= " & i.ToString() & " and fyear=DateName(YEAR,GetDate())"
                 drDB = db.GetDataReader(sSql)
                 drDB.Read()
                 tax_2221005(i) = drDB.Item("sdse")
