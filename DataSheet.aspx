@@ -63,7 +63,7 @@
         function _ajax(num) {
             $.ajax({
                 type: 'post',
-                url: 'IntervalSelect.ashx',
+                url: 'echart_ashx/IntervalSelect.ashx',
                 dataType: "html",
                 data: {
                     num: num
