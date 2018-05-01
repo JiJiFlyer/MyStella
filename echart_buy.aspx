@@ -47,6 +47,11 @@
 <body>
     <%=errorshow1%><br />
     <%=errorshow2%>
+    <div class="selectrow">
+        公司切换：<select id="select">
+            <%=SelectBook%>
+        </select>
+    </div>
     <div class="main">
         <div class="m1">
             <div id="buybar1" class="content"></div>
@@ -65,298 +70,32 @@
             <div id="pieregion" class="content"></div>
         </div>
     </div>
+    <div id="script"></div>
     <script type="text/javascript">
-        var buybar1 = echarts.init(document.getElementById('buybar1'), 'dark');
-        option_buybar1 = {
-            grid: {
-                left: '15%',
-                right: '15%',
-            },
-            title: {
-                text: 'TOP1:<%=topgoods(1)%>',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: "{b0}月{a0}：{c0}<%=unit(1)%><br/>{b1}月{a1}：{c1}元"
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            legend: {
-                data: ['数量', '价格'],
-                top: '8%'
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: [<%=flDate%>]
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '数量（<%=unit(1)%>）',
-                },
-                {
-                    type: 'value',
-                    name: '价格（元）'
-                }
-            ],
-            series: [
-                {
-                    name: '数量',
-                    type: 'bar',
-                    data: [<%=Bdata1%>]
-                },
-                {
-                    name: '价格',
-                    type: 'line',
-                    yAxisIndex: 1,
-                    data: [<%=Ldata1%>],
-                    markPoint: {
-                        symbol: 'circle',
-                        symbolSize: 25,
-                        data: [<%=Lmark1%>]
-                    }
-                }
-            ]
-        };
-
-        buybar1.setOption(option_buybar1);
-        window.addEventListener("resize", function () {
-
-            buybar1.resize();
-
-        });
-    </script>
-    <%--采购额第一产品量价图--%>
-
-    <script type="text/javascript">
-        var buybar2 = echarts.init(document.getElementById('buybar2'), 'dark');
-        option_buybar2 = {
-            grid: {
-                left: '15%',
-                right: '15%',
-            },
-            title: {
-                text: 'TOP2:<%=topgoods(2)%>',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: "{b0}月{a0}：{c0}<%=unit(2)%><br/>{b1}月{a1}：{c1}元"
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            legend: {
-                data: ['数量', '价格'],
-                top: '8%'
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: [<%=flDate%>]
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '数量（<%=unit(2)%>）',
-                },
-                {
-                    type: 'value',
-                    name: '价格（元）'
-                }
-            ],
-            series: [
-                {
-                    name: '数量',
-                    type: 'bar',
-                    data: [<%=Bdata2%>]
-                },
-                {
-                    name: '价格',
-                    type: 'line',
-                    yAxisIndex: 1,
-                    data: [<%=Ldata2%>],
-                    markPoint: {
-                        symbol: 'circle',
-                        symbolSize: 25,
-                        data: [<%=Lmark2%>]
-                    }
-                }
-            ]
-        };
-
-        buybar2.setOption(option_buybar2);
-        window.addEventListener("resize", function () {
-
-            buybar2.resize();
-
-        });
-    </script>
-    <%--采购额第二产品量价图--%>
-
-    <script type="text/javascript">
-        var buybar3 = echarts.init(document.getElementById('buybar3'), 'dark');
-        option_buybar3 = {
-            grid: {
-                left: '15%',
-                right: '15%',
-            },
-            title: {
-                text: 'TOP3:<%=topgoods(3)%>',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: "{b0}月{a0}：{c0}<%=unit(3)%><br/>{b1}月{a1}：{c1}元"
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            legend: {
-                data: ['数量', '价格'],
-                top: '8%'
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: [<%=flDate%>]
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value',
-                        name: '数量（<%=unit(3)%>）',
-                    },
-                    {
-                        type: 'value',
-                        name: '价格（元）'
-                    }
-                ],
-                series: [
-                    {
-                        name: '数量',
-                        type: 'bar',
-                        data: [<%=Bdata3%>]
-                    },
-                    {
-                        name: '价格',
-                        type: 'line',
-                        yAxisIndex: 1,
-                        data: [<%=Ldata3%>],
-                        markPoint: {
-                            symbol: 'circle',
-                            symbolSize: 25,
-                            data: [<%=Lmark3%>]
-                        }
-                    }
-                ]
-        };
-
-        buybar3.setOption(option_buybar3);
-        window.addEventListener("resize", function () {
-
-            buybar3.resize();
-
-        });
-    </script>
-    <%--采购额第三产品量价图--%>
-
-    <script type="text/javascript">
-        var buybar4 = echarts.init(document.getElementById('buybar4'), 'dark');
-            option_buybar4 = {
-                grid: {
-                    left: '15%',
-                    right: '15%',
-                },
-                title: {
-                    text: 'TOP4:<%=topgoods(4)%>',
-                    x: 'center'
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    formatter: "{b0}月{a0}：{c0}<%=unit(4)%><br/>{b1}月{a1}：{c1}元"
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: { show: true },
-                        restore: { show: true },
-                        saveAsImage: { show: true }
-                    }
-                },
-                calculable: true,
-                legend: {
-                    data: ['数量', '价格'],
-                    top: '8%'
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        data: [<%=flDate%>]
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value',
-                        name: '数量（<%=unit(4)%>）',
-                    },
-                    {
-                        type: 'value',
-                        name: '价格（元）'
-                    }
-                ],
-                series: [
-                    {
-                        name: '数量',
-                        type: 'bar',
-                        data: [<%=Bdata4%>]
-                    },
-                    {
-                        name: '价格',
-                        type: 'line',
-                        yAxisIndex: 1,
-                        data: [<%=Ldata4%>],
-                        markPoint: {
-                            symbol: 'circle',
-                            symbolSize: 25,
-                            data: [<%=Lmark4%>]
-                        }
-                    }
-                ]
-            };
-
-            buybar4.setOption(option_buybar4);
-            window.addEventListener("resize", function () {
-
-                buybar4.resize();
-
+        $(function () {
+            $('#select').on('change', function () {
+                var val = $(this).val();
+                _ajax(val);
             });
+        });
+        /*post value，再把value作为数组编号获得区间*/
+        function _ajax(booksno) {
+            $.ajax({
+                type: 'post',
+                url: 'echart_ashx/buy_select.ashx',
+                dataType: "html",
+                data: {
+                    booksno: booksno
+                },
+                success: function (data) {
+                    $("#script").html(data);
+                },
+                error: function (a, b, c) {
+                    alert("出错了！请稍候再试！ 出错原因：" + a + b + c);
+                }
+            });
+        }
     </script>
-    <%--采购额第四产品量价图--%>
-
    
 </body>
 </html>
