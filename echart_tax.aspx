@@ -20,43 +20,56 @@
     <script src="echars/javascript.js"></script>
 
     <style type="text/css">
-        .left {
+        html, body {
+            margin: 0;
+            padding: 0 5px;
+            height: 100%;
+        }
+
+        .main {
+            background-color: black;
+            height: 100%;
+        }
+
+        .main-left {
+            width: 30%;
+            height: 100%;
+            background-color: #ebe8dd;
             float: left;
-            width: 700px;
         }
 
-        .left-content {
-            width: 100%;
-            height: 450px;
-            padding: 5px;
+        .main-center {
+            width: 30%;
+            height: 100%;
+            background-color: #ebe8dd;
+            float: left;
         }
 
-        .right {
-            margin-left: 710px;
-        }
-
-        .right-content {
-            width: 100%;
-            height: 600px;
-            padding: 5px;
+        .main-right {
+            width: 40%;
+            background-color: #ebe8dd;
+            height: 100%;
+            float: left;
         }
     </style>
 </head>
 <body>
     <%=errorshow1%><br />
     <%=errorshow2%>
-    <div class="header">Header</div>
-    <div class="left">
-        <div id="tax2221002" class="left-content"></div>
-        <div id="tax2221005" class="left-content"></div>
-        <div id="taxDS" class="left-content"></div>
-        <div id="taxQS" class="left-content"></div>
+    <div class="main">
+        <div class="main-left">
+            <div id="tax2221002" style="height: 50%; width: 100%"></div>
+            <div id="tax2221005" style="height: 50%; width: 100%"></div>
+        </div>
+        <div class="main-center">
+            <div id="taxDS" style="height: 50%; width: 100%"></div>
+            <div id="taxQS" style="height: 50%; width: 100%"></div>
+        </div>
+        <div class="main-right">
+            <div id="taxPie" style="height: 50%; width: 100%"></div>
+            <div id="taxTotal" style="height: 50%; width: 100%"></div>
+        </div>
     </div>
-    <div class="right">
-        <div id="taxPie" class="right-content"></div>
-        <div id="taxTotal" class="right-content"></div>
-    </div>
-    <div class="footer">Footer</div>
     <script type="text/javascript">
         var echart_tax2221002 = echarts.init(document.getElementById('tax2221002'), 'vintage');
         option2221002 = {
@@ -118,6 +131,11 @@
         };
 
         echart_tax2221002.setOption(option2221002);
+        window.addEventListener("resize", function () {
+
+            echart_tax2221002.resize();
+
+        });
     </script>
     <%--2221002增值税--%>
 
@@ -182,6 +200,11 @@
         };
 
         echart_tax2221005.setOption(option2221005);
+        window.addEventListener("resize", function () {
+
+            echart_tax2221005.resize();
+
+        });
     </script>
     <%--2221005所得税--%>
 
@@ -240,12 +263,17 @@
                     symbolSize: 7,
                     yAxisIndex: 1,
                     data: <%=LdataDS%>,
-                        markPoint: { data: [<%=LmarkDS%>] }
+                    markPoint: { data: [<%=LmarkDS%>] }
                 }
             ]
         };
 
         echart_taxDS.setOption(optionDS);
+        window.addEventListener("resize", function () {
+
+            echart_taxDS.resize();
+
+        });
     </script>
     <%--DS地税--%>
 
@@ -277,39 +305,44 @@
                     type: 'category',
                     data: <%=flDate%>
                 }
-                ],
-                yAxis: [
-                    {
-                        type: 'value',
-                        name: '税额',
-                    },
-                    {
-                        type: 'value',
-                        name: '税负率',
-                        axisLabel: {
-                            formatter: '{value}%'
-                        }
-                    }
-                ],
-                series: [
-                    {
-                        name: '税额',
-                        type: 'bar',
-                        data: <%=BdataQS%>
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '税额',
                 },
-                    {
-                        name: '税负率',
-                        type: 'line',
-                        lineStyle: { width: 20 },
-                        symbolSize: 7,
-                        yAxisIndex: 1,
-                        data: <%=LdataQS%>,
-                    markPoint: { data: [<%=LmarkQS%>] }
+                {
+                    type: 'value',
+                    name: '税负率',
+                    axisLabel: {
+                        formatter: '{value}%'
                     }
-                ]
-            };
+                }
+            ],
+            series: [
+                {
+                    name: '税额',
+                    type: 'bar',
+                    data: <%=BdataQS%>
+                },
+                {
+                    name: '税负率',
+                    type: 'line',
+                    lineStyle: { width: 20 },
+                    symbolSize: 7,
+                    yAxisIndex: 1,
+                    data: <%=LdataQS%>,
+                        markPoint: { data: [<%=LmarkQS%>] }
+                }
+            ]
+        };
 
-            echart_taxQS.setOption(optionQS);
+        echart_taxQS.setOption(optionQS);
+        window.addEventListener("resize", function () {
+
+            echart_taxQS.resize();
+
+        });
     </script>
     <%--QS全税--%>
 
@@ -356,6 +389,11 @@
             };
 
             echart_pie_tax.setOption(option_pie_tax);
+            window.addEventListener("resize", function () {
+
+                echart_pie_tax.resize();
+
+            });
     </script>
     <%--年度税额占比情况--%>
 
@@ -386,7 +424,7 @@
                     {
                         type: 'category',
                         data: ['增值税(率)', '所得税(率)', '地税(率)', '全税(率)']
-                }
+                    }
                 ],
                 yAxis: [
                     {
@@ -417,27 +455,32 @@
                             }
                         },
                         data: [<%=BdataHelp%>]
-                },
-                {
-                    name: '税额',
-                    type: 'bar',
-                    stack: '总量',
-                    itemStyle: { normal: { label: { show: true, position: 'inside' } } },
-                    data: [<%=BdataTotal%>]
-                },
-                {
-                    name: '税负率',
-                    type: 'line',
-                    lineStyle: { width: 20 },
-                    symbolSize: 7,
-                    yAxisIndex: 1,
-                    data: [<%=LdataTotal%>],
-                    markPoint: { data: [<%=LmarkTotal%>] }
-                }
-            ]
+                    },
+                    {
+                        name: '税额',
+                        type: 'bar',
+                        stack: '总量',
+                        itemStyle: { normal: { label: { show: true, position: 'inside' } } },
+                        data: [<%=BdataTotal%>]
+                    },
+                    {
+                        name: '税负率',
+                        type: 'line',
+                        lineStyle: { width: 20 },
+                        symbolSize: 7,
+                        yAxisIndex: 1,
+                        data: [<%=LdataTotal%>],
+                        markPoint: { data: [<%=LmarkTotal%>] }
+                    }
+                ]
             };
 
             echart_taxTotal.setOption(optionTotal);
+            window.addEventListener("resize", function () {
+
+                echart_taxTotal.resize();
+
+            });
     </script>
     <%--Total累计--%>
 </body>
