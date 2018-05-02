@@ -43,147 +43,41 @@
 <body>
     <%=errorshow1%><br />
     <%=errorshow2%>
+    <div class="selectrow">
+        公司切换：<select id="select">
+            <%=SelectBook%>
+        </select>
+    </div>
     <div class="main">
         <div id="AssetLiabilityBar" class="content"></div>
         <div id="AssetPie" class="content"></div>
     </div>
+    <div id="script"></div>
     <script type="text/javascript">
-        var AssetLiabilityBar = echarts.init(document.getElementById('AssetLiabilityBar'), 'dark');
-        option_AssetLiabilityBar = {
-            grid: {
-                left: '8%',
-                right: '8%',
-            },
-            title: {
-                text: '资产负债率',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: "{b0}月{a0}：{c0}万元<br/>{b1}月{a1}：{c1}%"
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
-                }
-            },
-            calculable: true,
-            legend: {
-                data: ['资产', '资产负债率'],
-                top: '8%'
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: [<%=flDate%>]
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '资产（万元）',
-                },
-                {
-                    type: 'value',
-                    name: '资产负债率',
-                    axisLabel: {
-                        formatter: '{value}%'
-                    }
-                }
-            ],
-            series: [
-                {
-                    name: '资产',
-                    type: 'bar',
-                    data: [<%=Bdata%>]
-                },
-                {
-                    name: '资产负债率',
-                    type: 'line',
-                    yAxisIndex: 1,
-                    data: [<%=Ldata%>],
-                    markPoint: {
-                        symbol: 'circle',
-                        symbolSize: 25,
-                        data: [<%=Lmark%>]
-                    }
-                }
-            ]
-        };
-
-        AssetLiabilityBar.setOption(option_AssetLiabilityBar);
-        window.addEventListener("resize", function () {
-
-            AssetLiabilityBar.resize();
-
+        $(function () {
+            $('#select').on('change', function () {
+                var val = $(this).val();
+                _ajax(val);
+            });
         });
-    </script>
-    <%--资产负债率柱折图--%>
+        /*post value，再把value作为数组编号获得区间*/
+        function _ajax(booksno) {
+            $.ajax({
+                type: 'post',
+                url: 'echart_ashx/aeest_liability_select.ashx',
+                dataType: "html",
+                data: {
+                    booksno: booksno
+                },
+                success: function (data) {
+                    $("#script").html(data);
 
-    <script type="text/javascript">
-        var myChart_AssetPie = echarts.init(document.getElementById('AssetPie'), 'dark');
-        option_AssetPie = {
-            title: {
-                text: '资产构成',
-                subtext:'企业当前资产构成情况',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c}万元 ({d}%)"
-            },
-            legend: {
-                type: 'scroll',
-                top: '15%',
-                data: ['速动资产','非速动资产','非流动资产']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: { show: true },
-                    dataView: { show: true, readOnly: false },
-                    restore: { show: true },
-                    saveAsImage: { show: true }
+                },
+                error: function (a, b, c) {
+                    alert("出错了！请稍候再试！ 出错原因：" + a + b + c);
                 }
-            },
-            calculable: true,
-            series: [
-                {
-                    name: '资产构成',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '55%'],
-                    data: [<%=PData%>],
-                    label: {
-                        normal: {//数值显示设置
-                            formatter: '{b}:{d}%',
-                            textStyle: {
-                                fontWeight: 'normal',
-                                fontSize: 15
-                            }
-                        }
-                    },
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        };
-
-        myChart_AssetPie.setOption(option_AssetPie);
-        window.addEventListener("resize", function () {
-
-            myChart_AssetPie.resize();
-
-        });
+            });
+        }
     </script>
-    <%--资产构成饼图--%>
 </body>
 </html>
