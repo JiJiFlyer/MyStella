@@ -4,11 +4,12 @@
 # 所用技术
 asp.net WebForm+sqlserver+vb.net+js+css+echart+bmap（百度地图API）。
 # 主要页面
-> DataSheet
-![](https://github.com/JiJiFlyer/MyStella/截图示例/账龄表示例.jpg)  
-> echart_fee 
-> echart_tax 目前无数据
-> echart_buy
-> echart_sell
-> echart_asset-liability
+> 
+DataSheet<br>
+![](https://github.com/JiJiFlyer/MyStella/raw/master/截图示例/账龄表示例.jpg) <br> 
+echart_fee <br>
+echart_tax 目前无数据<br>
+echart_buy<br>
+echart_sell<br>
+echart_asset-liability<br>
 使用的是测试数据库，相关数据偏少，例如销售信息只有两天数据，得出的图表信息量很少。
